@@ -1,0 +1,30 @@
+<idea-plugin>
+  <id>com.epo.guider</id>
+  <name>GraylogGuider</name>
+  <version>1.0</version>
+  <vendor email="sunsheng.zhu@moco.com" url="https://www.moco.com">MoCo</vendor>
+
+  <description><![CDATA[
+    This is a Plugin for guiding java logger code into graylog message.
+    ]]></description>
+
+  <change-notes><![CDATA[
+    no changed.
+    ]]>
+  </change-notes>
+
+  <idea-version since-build="173.0"/>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
+                factoryClass="com.epo.GraylogToolWindow"/>
+  </extensions>
+
+  <actions>
+    <action id="GraylogGuider.Action" class="com.epo.GraylogGuiderAction" text="Graylog Guider" description="Graylog Guider">
+      <add-to-group group-id="WindowMenu" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
+    </action>
+  </actions>
+
+</idea-plugin>
