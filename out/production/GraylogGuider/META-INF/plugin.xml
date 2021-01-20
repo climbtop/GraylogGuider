@@ -17,7 +17,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
-                factoryClass="com.epo.GraylogToolWindowFactory"/>
+                factoryClass="com.epo.GraylogToolWindow"/>
   </extensions>
 
   <actions>
