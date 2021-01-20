@@ -91,10 +91,11 @@ public class GraylogGuiderAction extends AnAction {
 
         SelectionModel selectionModel = editor.getSelectionModel();
         String text = selectionModel.getSelectedText();
-        VisualPosition vp = selectionModel.getLeadSelectionPosition();
         VisualPosition start = selectionModel.getSelectionStartPosition();
         VisualPosition end = selectionModel.getSelectionEndPosition();
 
+        System.out.println("from: "+start.getLine()+","+start.getColumn());
+        System.out.println("to: "+end.getLine()+","+end.getColumn());
         System.out.println(text);
     }
 
