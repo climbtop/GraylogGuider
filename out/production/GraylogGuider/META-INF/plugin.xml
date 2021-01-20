@@ -17,11 +17,14 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
+                icon="/icons/icon13x13.png"
                 factoryClass="com.epo.GraylogToolWindow"/>
   </extensions>
 
   <actions>
-    <action id="GraylogGuider.Action" class="com.epo.GraylogGuiderAction" text="Graylog Guider" description="Graylog Guider">
+    <action id="GraylogGuider.Action" class="com.epo.GraylogGuiderAction"
+            icon="/icons/icon16x16.png"
+            text="Graylog Guider" description="Graylog Guider">
       <add-to-group group-id="WindowMenu" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
     </action>
