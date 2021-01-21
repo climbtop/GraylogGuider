@@ -100,7 +100,7 @@ public class GraylogGuiderAction extends AnAction {
     private void printToConsoleView(AnActionEvent event, String contentName, String message){
         ConsoleView consoleView = getConsoleView(event,contentName);
         if(consoleView!=null) {
-            consoleView.print(message, ConsoleViewContentType.NORMAL_OUTPUT);
+            consoleView.print(message+"\r\n", ConsoleViewContentType.NORMAL_OUTPUT);
         }
     }
 
