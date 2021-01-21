@@ -1,4 +1,4 @@
-package com.epo;
+package com.epo.plugin;
 
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.ui.ConsoleViewContentType;
@@ -125,9 +125,6 @@ public class GraylogGuiderAction extends AnAction {
         }
 
         triggerSelection(event);
-
-        //checkout: moving from release to HYBUAT-1885
-        //D:\EPO_HybrisOMS\hybris\bin\custom\epo-base\.git\logs\HEAD
 
         println(event,"Hello World "+new Date()+"\n");
 

@@ -1,4 +1,4 @@
-package com.epo;
+package com.epo.plugin;
 
 import com.intellij.openapi.util.IconLoader;
 

@@ -18,11 +18,11 @@
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
                 icon="/icons/icon13x13.png"
-                factoryClass="com.epo.GraylogToolWindow"/>
+                factoryClass="com.epo.plugin.GraylogToolWindow"/>
   </extensions>
 
   <actions>
-    <action id="GraylogGuider.Action" class="com.epo.GraylogGuiderAction"
+    <action id="GraylogGuider.Action" class="com.epo.plugin.GraylogGuiderAction"
             icon="/icons/icon16x16.png"
             text="Graylog Guider" description="Graylog Guider">
       <add-to-group group-id="WindowMenu" anchor="last"/>
