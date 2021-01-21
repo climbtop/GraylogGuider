@@ -153,10 +153,10 @@ public class GraylogGuiderAction extends AnAction {
 
         boolean initResult = initPsiFileListener(event, callback);
         if(!initResult){
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "uninstall GraylogGuider.");
+            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider uninstalled.");
             unInitPsiFileListener(event);
         }else{
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "install GraylogGuider.");
+            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider installed.");
         }
 
         triggerActionEventNow(event,callback);
