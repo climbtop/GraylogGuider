@@ -133,6 +133,8 @@ public class GraylogGuiderAction extends AnAction {
                         for(Message msg : result.getMessages()) {
                             printToConsoleView(event, result.getEnvironment(), msg.getFullMessage());
                         }
+                    }else{
+                        printToConsoleView(event, result.getEnvironment(), result.getContent());
                     }
                     return 0;
                 }
@@ -153,10 +155,10 @@ public class GraylogGuiderAction extends AnAction {
 
         boolean initResult = initPsiFileListener(event, callback);
         if(!initResult){
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider uninstalled.");
+            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, "GraylogGuider uninstalled.");
             unInitPsiFileListener(event);
         }else{
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider installed.");
+            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, "GraylogGuider installed.");
         }
 
         triggerActionEventNow(event,callback);

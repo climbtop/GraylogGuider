@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 @SuppressWarnings("serial")
 public class SearchResult implements Serializable{
+	private String content;
 	private String environment;
 	private String query;
 	private String from;
@@ -35,6 +36,7 @@ public class SearchResult implements Serializable{
 	
 	public void parseSearchResult(String content) {
 		try {
+			setContent(content);
 			JSONObject object = JSON.parseObject(content);
 			this.query = object.getString("query");
 			this.from = object.getString("from");
@@ -119,5 +121,13 @@ public class SearchResult implements Serializable{
 
 	public void setEnvironment(String environment) {
 		this.environment = environment;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

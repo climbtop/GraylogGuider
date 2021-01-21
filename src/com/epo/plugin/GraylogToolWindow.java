@@ -10,14 +10,18 @@ import org.jetbrains.annotations.NotNull;
 
 public class GraylogToolWindow implements ToolWindowFactory {
     public static String WINDOW_NAME = "Graylog";
-    public static String CONTENT_NAME = "Local";
-    public static String CONTENT_NAME_UAT = "Uat";
-    public static String CONTENT_NAME_PROD = "Prod";
+    public static String CONTENT_NAME_LOCAL = "Local";
+    public static String CONTENT_NAME_UAT = "UAT";
+    public static String CONTENT_NAME_PROD = "PROD";
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
-        Content content = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME, true);
-        toolWindow.getContentManager().addContent(content);
+        Content content1 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_LOCAL, true);
+        toolWindow.getContentManager().addContent(content1);
+        Content content2 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_UAT, true);
+        toolWindow.getContentManager().addContent(content2);
+        Content content3 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_PROD, true);
+        toolWindow.getContentManager().addContent(content3);
     }
 }
