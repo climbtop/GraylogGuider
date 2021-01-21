@@ -1,5 +1,6 @@
 package com.epo.plugin;
 
+import com.alibaba.fastjson.JSON;
 import com.epo.graylog.GraylogCaller;
 import com.epo.graylog.GraylogClient;
 import com.epo.graylog.bean.AbstractConfig;
@@ -131,10 +132,10 @@ public class GraylogGuiderAction extends AnAction {
                 result->{
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {
-                            printToConsoleView(event, result.getEnvironment(), msg.getFullMessage());
+                            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, msg.getFullMessage());
                         }
                     }else{
-                        printToConsoleView(event, result.getEnvironment(), result.getContent());
+                        printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, JSON.toJSONString(result));
                     }
                     return 0;
                 }
@@ -147,7 +148,7 @@ public class GraylogGuiderAction extends AnAction {
             @Override
             public void trigger(String psiFile, SelectionModel selectionModel) {
                 String searchText = selectionModel.getSelectedText();
-                int searchLine = selectionModel.getSelectionStartPosition().getLine();
+                int searchLine = selectionModel.getSelectionStartPosition().getLine()+1;
                 searchGraylogMessage(event, new ProdConfig(), psiFile, searchLine, searchText);
                 searchGraylogMessage(event, new UatConfig(), psiFile, searchLine, searchText);
             }

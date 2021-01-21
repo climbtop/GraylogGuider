@@ -19,9 +19,9 @@ public class GraylogToolWindow implements ToolWindowFactory {
         ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
         Content content1 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_LOCAL, true);
         toolWindow.getContentManager().addContent(content1);
-        Content content2 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_UAT, true);
-        toolWindow.getContentManager().addContent(content2);
-        Content content3 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_PROD, true);
-        toolWindow.getContentManager().addContent(content3);
+        //Content content2 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_UAT, true);
+        //toolWindow.getContentManager().addContent(content2);
+        //Content content3 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_PROD, true);
+        //toolWindow.getContentManager().addContent(content3);
     }
 }
