@@ -3,7 +3,7 @@ package com.epo.graylog.bean.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.graylog.bean.AbstractConfig;
+import com.epo.graylog.bean.AbstractConfig;
 
 /**
  * 

@@ -8,10 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.common.StringUtil;
 import com.extend.HttpGet;
 import com.extend.HttpPost;
-import com.graylog.bean.AbstractConfig;
-import com.graylog.bean.QueryParam;
-import com.graylog.bean.SearchResult;
-import com.graylog.bean.Token;
+import com.epo.graylog.bean.AbstractConfig;
+import com.epo.graylog.bean.QueryParam;
+import com.epo.graylog.bean.SearchResult;
+import com.epo.graylog.bean.Token;
 import com.httpclient.HttpSimple;
 
 /**

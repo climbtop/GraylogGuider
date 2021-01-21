@@ -1,11 +1,11 @@
 package com.epo.graylog;
 
-import com.graylog.bean.AbstractConfig;
-import com.graylog.bean.Message;
-import com.graylog.bean.QueryRefactor;
-import com.graylog.bean.QueryParam;
-import com.graylog.bean.SearchResult;
-import com.graylog.bean.impl.UatConfig;
+import com.epo.graylog.bean.AbstractConfig;
+import com.epo.graylog.bean.Message;
+import com.epo.graylog.bean.QueryRefactor;
+import com.epo.graylog.bean.QueryParam;
+import com.epo.graylog.bean.SearchResult;
+import com.epo.graylog.bean.impl.UatConfig;
 
 /**
  * 
@@ -14,7 +14,7 @@ import com.graylog.bean.impl.UatConfig;
  * @date 2021年1月20日
  * @time 下午4:21:26
  */
-public class GraylogSearchTest {
+public class GraylogSearchMocker {
 
 	public static void main(String[] args) {
 		AbstractConfig ac = new UatConfig();
