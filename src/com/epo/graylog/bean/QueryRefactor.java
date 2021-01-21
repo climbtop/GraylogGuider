@@ -19,9 +19,8 @@ public class QueryRefactor implements Serializable{
 	private String fileName;
 	private String projectName;
 	
-	public QueryRefactor(AbstractConfig ac, String sourceFile) {
+	public QueryRefactor(AbstractConfig ac) {
 		this.ac = ac;
-		this.sourceFile = sourceFile;
 		this.resovleMoreInfo();
 	}
 	
@@ -29,7 +28,7 @@ public class QueryRefactor implements Serializable{
 		return projectName!=null && streamsId!=null && fileName!=null;
 	}
 	
-	protected void resovleMoreInfo() {
+	public void resovleMoreInfo() {
 		String filePath = this.sourceFile.replaceAll("\\\\", "/");
 		setFileName(filePath.substring(filePath.lastIndexOf("/")+1));
 		resovleProjectName(filePath);

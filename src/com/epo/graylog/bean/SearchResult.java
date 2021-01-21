@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 @SuppressWarnings("serial")
 public class SearchResult implements Serializable{
+	private String environment;
 	private String query;
 	private String from;
 	private String to;
@@ -111,5 +112,12 @@ public class SearchResult implements Serializable{
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
-	
+
+	public String getEnvironment() {
+		return environment;
+	}
+
+	public void setEnvironment(String environment) {
+		this.environment = environment;
+	}
 }

@@ -14,7 +14,7 @@ import com.epo.graylog.bean.impl.UatConfig;
  * @date 2021年1月20日
  * @time 下午4:21:26
  */
-public class GraylogSearchMocker {
+public class GraylogSearchTest {
 
 	public static void main(String[] args) {
 		AbstractConfig ac = new UatConfig();
@@ -36,8 +36,10 @@ public class GraylogSearchMocker {
 		String file = "D:\\EPO_HybrisOMS\\hybris\\bin\\custom\\epo-business\\epotm\\src\\com\\epo\\tm\\job\\pcm\\EpoEcTbProductConvertJob.java";
 		String line = "457";
 		
-		QueryRefactor pr = new QueryRefactor(ac, file);
+		QueryRefactor pr = new QueryRefactor(ac);
 		pr.setLineNumber(line);
+		pr.setSourceFile(file);
+		pr.resovleMoreInfo();
 		return pr;
 	}
 

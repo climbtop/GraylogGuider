@@ -78,6 +78,12 @@ public class QueryParam implements Serializable{
 	public void setEnc(String enc) {
 		this.enc = enc;
 	}
-	
-	
+
+	public QueryRefactor getPr() {
+		return pr;
+	}
+
+	public void setPr(QueryRefactor pr) {
+		this.pr = pr;
+	}
 }
