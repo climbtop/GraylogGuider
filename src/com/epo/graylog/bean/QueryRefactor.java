@@ -21,7 +21,6 @@ public class QueryRefactor implements Serializable{
 	
 	public QueryRefactor(AbstractConfig ac) {
 		this.ac = ac;
-		this.resovleMoreInfo();
 	}
 	
 	public boolean isValid() {
@@ -29,8 +28,11 @@ public class QueryRefactor implements Serializable{
 	}
 	
 	public void resovleMoreInfo() {
-		String filePath = this.sourceFile.replaceAll("\\\\", "/");
-		setFileName(filePath.substring(filePath.lastIndexOf("/")+1));
+		if(getSourceFile()==null)return;
+		String filePath = getSourceFile().replaceAll("\\\\", "/");
+		if(filePath.lastIndexOf("/")>=0) {
+			setFileName(filePath.substring(filePath.lastIndexOf("/") + 1));
+		}
 		resovleProjectName(filePath);
 		resovleStreamsId();
 	}
