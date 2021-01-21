@@ -3,6 +3,7 @@ package com.epo.graylog.bean;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * 
@@ -33,7 +34,9 @@ public class Message implements Serializable{
 	
 	public String getDatetime() {
 		try{
-			Date date = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.sss\'Z\'").parse(timestamp);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.sss\'Z\'");
+			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+			Date date = sdf.parse(timestamp);
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,sss").format(date);
 		}catch(Exception e) {
 			return timestamp;
