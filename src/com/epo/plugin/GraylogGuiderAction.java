@@ -22,7 +22,6 @@ import com.intellij.ui.content.ContentManager;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -132,10 +131,10 @@ public class GraylogGuiderAction extends AnAction {
                 result->{
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {
-                            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, msg.getFullMessage());
+                            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, msg.getFullMessage());
                         }
                     }else{
-                        printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, JSON.toJSONString(result));
+                        printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, JSON.toJSONString(result));
                     }
                     return 0;
                 }
@@ -149,17 +148,17 @@ public class GraylogGuiderAction extends AnAction {
             public void trigger(String psiFile, SelectionModel selectionModel) {
                 String searchText = selectionModel.getSelectedText();
                 int searchLine = selectionModel.getSelectionStartPosition().getLine()+1;
-                searchGraylogMessage(event, new ProdConfig(), psiFile, searchLine, searchText);
+                //searchGraylogMessage(event, new ProdConfig(), psiFile, searchLine, searchText);
                 searchGraylogMessage(event, new UatConfig(), psiFile, searchLine, searchText);
             }
         };
 
         boolean initResult = initPsiFileListener(event, callback);
         if(!initResult){
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, "GraylogGuider uninstalled.");
+            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider uninstalled.");
             unInitPsiFileListener(event);
         }else{
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME_LOCAL, "GraylogGuider installed.");
+            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider installed.");
         }
 
         triggerActionEventNow(event,callback);

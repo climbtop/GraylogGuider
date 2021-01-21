@@ -2,6 +2,7 @@ package com.epo.graylog.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -72,6 +73,7 @@ public class SearchResult implements Serializable{
 				e.printStackTrace();
 			}
 		}
+		Collections.reverse(getMessages());
 	}
 
 
