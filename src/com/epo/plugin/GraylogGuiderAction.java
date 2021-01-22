@@ -129,7 +129,6 @@ public class GraylogGuiderAction extends AnAction {
                 (pr,qp)->{
                     qp.setLimit("50"); //pageSize
                     qp.setRange(String.valueOf(30 * 60)); //30 minutes
-
                     if(StringUtils.isNotEmpty(pr.getSearchText())){
                         qp.setQuery(String.format("sourceFileName:%s AND message:\"%s\"",
                                 pr.getFileName(), pr.getSearchText()));
@@ -146,7 +145,7 @@ public class GraylogGuiderAction extends AnAction {
                             printToConsoleView(event, contentName, msg.getShortMessage());
                         }
                     }else{
-                        printToConsoleView(event, contentName, JSON.toJSONString(result.getQp()));
+                        printToConsoleView(event, contentName, JSON.toJSONString(result.getQp().getQuery()));
                     }
                     return 0;
                 }
