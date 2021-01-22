@@ -1,5 +1,7 @@
 package com.epo.graylog.bean;
 
+import com.epo.graylog.bean.impl.ModuleConfig;
+
 import java.io.Serializable;
 
 /**
@@ -39,24 +41,9 @@ public class QueryRefactor implements Serializable{
 	
 	protected void resovleProjectName(String filePath) {
 		for(String folder : filePath.split("/")) {
-			if(folder==null || folder.trim().length()==0)continue;
-			if("epo-base".equals(folder)||"epo-business".equals(folder)) {
-				this.projectName = "Hybris";
-				break;
-			}else if("epo-official".equals(folder)) {
-				this.projectName = "MALL";
-				break;
-			}else if("promotion".equals(folder)) {
-				this.projectName = "Promotion";
-				break;
-			}else if("sourcing".equals(folder)) {
-				this.projectName = "Sourcing";
-				break;
-			}else if("inventory".equals(folder)) {
-				this.projectName = "Inventory";
-				break;
-			}else if("EpoParent".equals(folder)) {
-				this.projectName = "Hap";
+			String module = ModuleConfig.mapping(folder);
+			if(module!=null){
+				this.projectName = module;
 				break;
 			}
 		}
@@ -65,14 +52,6 @@ public class QueryRefactor implements Serializable{
 	protected void resovleStreamsId() {
 		String projectName = getProjectName();
 		if(projectName==null) return;
-		if("PROD".equals(ac.getEnvironment())) {
-			if("Hybris".equals(projectName)) {
-				projectName = "OMS";
-			}
-			if("Hap".equals(projectName)) {
-				projectName = "HAP";
-			}
-		}
 		for(String streamName : ac.getStreamName2StreamIdMap().keySet()) {
 			if(streamName.indexOf(projectName)>=0) {
 				this.streamsId = ac.getStreamName2StreamIdMap().get(streamName);
