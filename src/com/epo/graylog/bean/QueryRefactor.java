@@ -24,34 +24,42 @@ public class QueryRefactor implements Serializable{
 	private String fileName;    //文件名
 	private String projectName; //打开文件所属工程名称
 	private Integer lineTotal;  //文件总行数
-	private Integer amendLine;  //文件修正行数
+	private Integer lineCount;  //编辑器总行数
+	private Integer amendCount;  //文件修正行数
 
 	public QueryRefactor(){
-		this.amendLine = 0;
-		this.lineTotal = 0;
+		this(null);
 	}
 	
 	public QueryRefactor(AbstractConfig ac) {
+		this.amendCount = 0;
+		this.lineTotal = 0;
+		this.lineCount = 0;
 		this.ac = ac;
 	}
 	
 	public boolean isValid() {
-		return projectName!=null && streamsId!=null && fileName!=null && lineTotal !=null;
+		return fileName!=null && projectName!=null && streamsId!=null && lineTotal !=null;
 	}
 	
 	public void resovleMoreInfo() {
+		resovleFileName();
+		resovleProjectName();
+		resovleStreamsId();
+		resovleFileLineTotal();
+		resovleFileAmendCount();
+	}
+
+	protected void resovleFileName(){
 		if(getSourceFile()==null)return;
 		String filePath = getSourceFile().replaceAll("\\\\", "/");
 		if(filePath.lastIndexOf("/")>=0) {
 			setFileName(filePath.substring(filePath.lastIndexOf("/") + 1));
 		}
-		resovleProjectName(filePath);
-		resovleStreamsId();
-		resovleFileLinesTotal();
 	}
 
-	protected void resovleFileLinesTotal() {
-		if (!new File(getSourceFile()).exists()) return;
+	protected void resovleFileLineTotal() {
+		if (!new File(getSourceFile()).exists());
 		try {
 			LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(getSourceFile()));
 			lineNumberReader.skip(Long.MAX_VALUE);
@@ -59,8 +67,18 @@ public class QueryRefactor implements Serializable{
 		} catch (Exception e) {
 		}
 	}
+
+	protected void resovleFileAmendCount() {
+		if(getLineTotal()==null || getLineCount()==null){
+			return;
+		}
+		setAmendCount(Math.abs(getLineTotal()-getLineCount()));
+		setLineNumber(getLineNumber() + getAmendCount());
+	}
 	
-	protected void resovleProjectName(String filePath) {
+	protected void resovleProjectName() {
+		if(getSourceFile()==null)return;
+		String filePath = getSourceFile().replaceAll("\\\\", "/");
 		for(String folder : filePath.split("/")) {
 			String module = ModuleConfig.mapping(folder);
 			if(module!=null){
@@ -145,11 +163,19 @@ public class QueryRefactor implements Serializable{
 		this.lineTotal = lineTotal;
 	}
 
-	public Integer getAmendLine() {
-		return amendLine;
+	public Integer getAmendCount() {
+		return amendCount;
 	}
 
-	public void setAmendLine(Integer amendLine) {
-		this.amendLine = amendLine;
+	public void setAmendCount(Integer amendCount) {
+		this.amendCount = amendCount;
+	}
+
+	public Integer getLineCount() {
+		return lineCount;
+	}
+
+	public void setLineCount(Integer lineCount) {
+		this.lineCount = lineCount;
 	}
 }

@@ -69,12 +69,12 @@ public class GraylogGuiderAction extends AnAction {
         // 获取到数据上下文后，通过CommonDataKeys对象可以获得该File的所有信息
         Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
         Document document = editor.getDocument();
+        SelectionModel selectionModel = editor.getSelectionModel();
 
         EditorMouseListener listener = new EditorMouseListener() {
             @Override
             public void mouseClicked(@NotNull EditorMouseEvent event) {
-                SelectionModel selectionModel = event.getEditor().getSelectionModel();
-                callback.trigger(virtualFile, selectionModel);
+                callback.trigger(virtualFile, editor);
             }
         };
         editorMouseMap.put(virtualFile, listener);
@@ -125,13 +125,14 @@ public class GraylogGuiderAction extends AnAction {
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
         DataContext dataContext = event.getDataContext();
         Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
-        callback.trigger(virtualFile, editor.getSelectionModel());
+        callback.trigger(virtualFile, editor);
     }
 
-    public void searchGraylogMessage(final AnActionEvent event, AbstractConfig ac, String psiFile, int searchLine, String searchText){
+    public void searchGraylogMessage(final AnActionEvent event, AbstractConfig ac, String psiFile, int searchLine, int lineCount, String searchText){
         GraylogCaller.callWebService(client, ac,
                 pr->{
                     pr.setSourceFile(psiFile);
+                    pr.setLineCount(lineCount);
                     pr.setLineNumber(searchLine);
                     pr.setSearchText(searchText);
                 },
@@ -166,11 +167,14 @@ public class GraylogGuiderAction extends AnAction {
     public void actionPerformed(AnActionEvent event) {
         GraylogCallback callback = new GraylogCallback() {
             @Override
-            public void trigger(String psiFile, SelectionModel selectionModel) {
+            public void trigger(String psiFile, Editor editor) {
+                SelectionModel selectionModel = editor.getSelectionModel();
                 String searchText = selectionModel.getSelectedText();
                 int searchLine = selectionModel.getSelectionStartPosition().getLine()+1;
-                //searchGraylogMessage(event, new ProdConfig(), psiFile, searchLine, searchText);
-                searchGraylogMessage(event, new UatConfig(), psiFile, searchLine, searchText);
+                int lineCount = editor.getDocument().getLineCount();
+
+                //searchGraylogMessage(event, new ProdConfig(), psiFile, searchLine, lineCount, searchText);
+                searchGraylogMessage(event, new UatConfig(), psiFile, searchLine, lineCount, searchText);
             }
         };
 
