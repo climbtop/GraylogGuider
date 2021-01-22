@@ -21,8 +21,8 @@ public class QueryParam implements Serializable{
 	
 	public QueryParam(QueryRefactor pr) {
 		this.pr = pr;
-		this.range = String.valueOf(480 * 60); //minutes
-		this.limit = "150";
+		this.range = String.valueOf(30 * 60); //30 minutes
+		this.limit = "50";
 		this.sort = "timestamp:desc";
 		this.enc = "UTF-8";
 	}

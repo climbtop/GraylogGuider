@@ -1,11 +1,9 @@
 package com.epo.plugin;
 
-import com.alibaba.fastjson.JSON;
 import com.epo.graylog.GraylogCaller;
 import com.epo.graylog.GraylogClient;
 import com.epo.graylog.bean.AbstractConfig;
 import com.epo.graylog.bean.Message;
-import com.epo.graylog.bean.impl.ProdConfig;
 import com.epo.graylog.bean.impl.UatConfig;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.ui.ConsoleViewContentType;
@@ -52,7 +50,7 @@ public class GraylogGuiderAction extends AnAction {
         }
     }
 
-    private boolean initPsiFileListener(AnActionEvent event,final ActionCallback callback){
+    private boolean initPsiFileListener(AnActionEvent event,final GraylogCallback callback){
         PsiFile psiFile = event.getData(PlatformDataKeys.PSI_FILE);
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
 
@@ -71,12 +69,9 @@ public class GraylogGuiderAction extends AnAction {
 
         EditorMouseListener listener = new EditorMouseListener() {
             @Override
-            public void mousePressed(@NotNull EditorMouseEvent event) {
+            public void mouseClicked(@NotNull EditorMouseEvent event) {
                 SelectionModel selectionModel = event.getEditor().getSelectionModel();
                 callback.trigger(virtualFile, selectionModel);
-            }
-            @Override
-            public void mouseExited(@NotNull EditorMouseEvent event) {
             }
         };
         editorMouseMap.put(virtualFile, listener);
@@ -86,15 +81,19 @@ public class GraylogGuiderAction extends AnAction {
     }
 
     private ConsoleView getConsoleView(AnActionEvent event, String contentName){
-        ToolWindow toolWindow = ToolWindowManager.getInstance(event.getProject())
-                .getToolWindow(GraylogToolWindow.WINDOW_NAME);
-        if(toolWindow==null) return null;
-        ContentManager contentManager = toolWindow.getContentManager();
-        if(contentManager==null) return null;
-        Content content = contentManager.findContent(contentName);
-        if(content==null) return null;
-        ConsoleView consoleView = (ConsoleView) content.getComponent();
-        return consoleView;
+        try {
+            ToolWindow toolWindow = ToolWindowManager.getInstance(event.getProject())
+                    .getToolWindow(GraylogToolWindow.WINDOW_NAME);
+            if (toolWindow == null) return null;
+            ContentManager contentManager = toolWindow.getContentManager();
+            if (contentManager == null) return null;
+            Content content = contentManager.findContent(contentName);
+            if (content == null) return null;
+            ConsoleView consoleView = (ConsoleView) content.getComponent();
+            return consoleView;
+        }catch(Throwable e){
+            return null;
+        }
     }
 
     private void printToConsoleView(AnActionEvent event, String contentName, String message){
@@ -104,7 +103,7 @@ public class GraylogGuiderAction extends AnAction {
         }
     }
 
-    private void triggerActionEventNow(AnActionEvent event, ActionCallback callback) {
+    private void triggerActionEventNow(AnActionEvent event, GraylogCallback callback) {
         PsiFile psiFile = event.getData(PlatformDataKeys.PSI_FILE);
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
         DataContext dataContext = event.getDataContext();
@@ -112,7 +111,7 @@ public class GraylogGuiderAction extends AnAction {
         callback.trigger(virtualFile, editor.getSelectionModel());
     }
 
-    public void searchGraylogMessage(AnActionEvent event, AbstractConfig ac, String psiFile, int searchLine, String searchText){
+    public void searchGraylogMessage(final AnActionEvent event, AbstractConfig ac, String psiFile, int searchLine, String searchText){
         GraylogCaller.callWebService(client, ac,
                 pr->{
                     pr.setSourceFile(psiFile);
@@ -120,6 +119,9 @@ public class GraylogGuiderAction extends AnAction {
                     pr.setSearchText(searchText);
                 },
                 (pr,qp)->{
+                    qp.setLimit("50"); //pageSize
+                    qp.setRange(String.valueOf(30 * 60)); //30 minutes
+
                     if(StringUtils.isNotEmpty(pr.getSearchText())){
                         qp.setQuery(String.format("sourceFileName:%s AND message:\"%s\"",
                                 pr.getFileName(), pr.getSearchText()));
@@ -131,10 +133,10 @@ public class GraylogGuiderAction extends AnAction {
                 result->{
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {
-                            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, msg.getFullMessage());
+                            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, msg.getShortMessage());
                         }
                     }else{
-                        printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, JSON.toJSONString(result));
+                        printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, result.getQuery());
                     }
                     return 0;
                 }
@@ -143,7 +145,7 @@ public class GraylogGuiderAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
-        ActionCallback callback = new ActionCallback() {
+        GraylogCallback callback = new GraylogCallback() {
             @Override
             public void trigger(String psiFile, SelectionModel selectionModel) {
                 String searchText = selectionModel.getSelectedText();

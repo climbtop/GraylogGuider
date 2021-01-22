@@ -31,6 +31,10 @@ public class Message implements Serializable{
 		return String.format("%s %s [%s] (%s) [%s]:%s - %s", getDatetime(),getLevelName(),threadName,source,
 				sourceClassName, sourceLineNumber, message);
 	}
+
+	public String getShortMessage() {
+		return String.format("%s %s - %s", getDatetime(),getLevelName(), message);
+	}
 	
 	public String getDatetime() {
 		try{
