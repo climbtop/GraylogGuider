@@ -13,6 +13,7 @@ public class GraylogToolWindow implements ToolWindowFactory {
     public static String CONTENT_NAME = "Local";
     public static String CONTENT_NAME_UAT = "UAT";
     public static String CONTENT_NAME_PROD = "PROD";
+    public static String NOTIFY_NAME = "GraylogTips";
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {

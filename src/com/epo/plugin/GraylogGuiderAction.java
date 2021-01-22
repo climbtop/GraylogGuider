@@ -8,9 +8,11 @@ import com.epo.graylog.bean.Message;
 import com.epo.graylog.bean.impl.UatConfig;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.execution.ui.ConsoleViewContentType;
+import com.intellij.notification.*;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.event.EditorMouseEvent;
 import com.intellij.openapi.editor.event.EditorMouseListener;
+import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.PsiFile;
@@ -111,6 +113,13 @@ public class GraylogGuiderAction extends AnAction {
         }
     }
 
+    public void showNotifyTip(String message){
+        NotificationGroup notificationGroup = new NotificationGroup(GraylogToolWindow.NOTIFY_NAME,
+                NotificationDisplayType.BALLOON, false);
+        Notification notification = notificationGroup.createNotification(message, MessageType.INFO);
+        Notifications.Bus.notify(notification);
+    }
+
     private void triggerActionEventNow(AnActionEvent event, GraylogCallback callback) {
         PsiFile psiFile = event.getData(PlatformDataKeys.PSI_FILE);
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
@@ -167,13 +176,14 @@ public class GraylogGuiderAction extends AnAction {
 
         boolean initResult = initPsiFileListener(event, callback);
         if(!initResult){
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider uninstalled.");
+            showNotifyTip("GraylogGuider uninstalled.");
             unInitPsiFileListener(event);
         }else{
-            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, "GraylogGuider installed.");
+            showNotifyTip("GraylogGuider installed.");
         }
 
         triggerActionEventNow(event,callback);
     }
+
 
 }
