@@ -2,6 +2,9 @@ package com.epo.graylog.bean;
 
 import com.epo.graylog.bean.impl.ModuleConfig;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.LineNumberReader;
 import java.io.Serializable;
 
 /**
@@ -13,20 +16,27 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class QueryRefactor implements Serializable{
-	private AbstractConfig ac;
-	private String searchText;
-	private String sourceFile;
-	private String lineNumber;
-	private String streamsId;
-	private String fileName;
-	private String projectName;
+	private AbstractConfig ac;  //环境变量
+	private String searchText;  //查询语句
+	private String sourceFile;  //打开文件全路径
+	private Integer lineNumber; //打开文件当前行号数
+	private String streamsId;   //日志流ID
+	private String fileName;    //文件名
+	private String projectName; //打开文件所属工程名称
+	private Integer lineTotal;  //文件总行数
+	private Integer amendLine;  //文件修正行数
+
+	public QueryRefactor(){
+		this.amendLine = 0;
+		this.lineTotal = 0;
+	}
 	
 	public QueryRefactor(AbstractConfig ac) {
 		this.ac = ac;
 	}
 	
 	public boolean isValid() {
-		return projectName!=null && streamsId!=null && fileName!=null;
+		return projectName!=null && streamsId!=null && fileName!=null && lineTotal !=null;
 	}
 	
 	public void resovleMoreInfo() {
@@ -37,6 +47,17 @@ public class QueryRefactor implements Serializable{
 		}
 		resovleProjectName(filePath);
 		resovleStreamsId();
+		resovleFileLinesTotal();
+	}
+
+	protected void resovleFileLinesTotal() {
+		if (!new File(getSourceFile()).exists()) return;
+		try {
+			LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(getSourceFile()));
+			lineNumberReader.skip(Long.MAX_VALUE);
+			setLineTotal(lineNumberReader.getLineNumber() + 1);
+		} catch (Exception e) {
+		}
 	}
 	
 	protected void resovleProjectName(String filePath) {
@@ -76,11 +97,11 @@ public class QueryRefactor implements Serializable{
 		this.sourceFile = sourceFile;
 	}
 
-	public String getLineNumber() {
+	public Integer getLineNumber() {
 		return lineNumber;
 	}
 
-	public void setLineNumber(String lineNumber) {
+	public void setLineNumber(Integer lineNumber) {
 		this.lineNumber = lineNumber;
 	}
 
@@ -108,4 +129,27 @@ public class QueryRefactor implements Serializable{
 		this.projectName = projectName;
 	}
 
+	public AbstractConfig getAc() {
+		return ac;
+	}
+
+	public void setAc(AbstractConfig ac) {
+		this.ac = ac;
+	}
+
+	public Integer getLineTotal() {
+		return lineTotal;
+	}
+
+	public void setLineTotal(Integer lineTotal) {
+		this.lineTotal = lineTotal;
+	}
+
+	public Integer getAmendLine() {
+		return amendLine;
+	}
+
+	public void setAmendLine(Integer amendLine) {
+		this.amendLine = amendLine;
+	}
 }

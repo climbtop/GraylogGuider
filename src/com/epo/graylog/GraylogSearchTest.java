@@ -34,7 +34,7 @@ public class GraylogSearchTest {
 	
 	public static QueryRefactor getProjectRefactor(AbstractConfig ac) {
 		String file = "D:\\EPO_HybrisOMS\\hybris\\bin\\custom\\epo-business\\epotm\\src\\com\\epo\\tm\\job\\pcm\\EpoEcTbProductConvertJob.java";
-		String line = "457";
+		Integer line = 457;
 		
 		QueryRefactor pr = new QueryRefactor(ac);
 		pr.setLineNumber(line);

@@ -11,13 +11,13 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class QueryParam implements Serializable{
-	private QueryRefactor pr;
-	private String query;
-	private String range;
-	private String filter;
-	private String limit;
-	private String sort;
-	private String enc;
+	private QueryRefactor pr;   //查找变量
+	private String query;  //查询语句
+	private String range;  //查询时间范围(分钟)
+	private String filter; //流过滤
+	private String limit;  //每页大小
+	private String sort;   //排序方式
+	private String enc;    //编码方式
 	
 	public QueryParam(QueryRefactor pr) {
 		this.pr = pr;

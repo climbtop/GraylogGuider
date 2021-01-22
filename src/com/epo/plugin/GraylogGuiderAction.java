@@ -132,7 +132,7 @@ public class GraylogGuiderAction extends AnAction {
         GraylogCaller.callWebService(client, ac,
                 pr->{
                     pr.setSourceFile(psiFile);
-                    pr.setLineNumber(String.valueOf(searchLine));
+                    pr.setLineNumber(searchLine);
                     pr.setSearchText(searchText);
                 },
                 (pr,qp)->{
