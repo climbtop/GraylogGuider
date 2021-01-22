@@ -105,7 +105,7 @@ public class GraylogClient {
 	}
 
 	public SearchResult search(AbstractConfig ac, QueryParam qp) {
-		SearchResult result = new SearchResult();
+		SearchResult result = new SearchResult(qp);
 		result.setEnvironment(ac.getEnvironment());
 		if (!qp.isValid()) {
 			return result;

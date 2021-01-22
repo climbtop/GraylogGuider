@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 @SuppressWarnings("serial")
 public class SearchResult implements Serializable{
+	private QueryParam qp;
 	private String content;
 	private String environment;
 	private String query;
@@ -25,8 +26,13 @@ public class SearchResult implements Serializable{
 	private String to;
 	private Integer totalResults;
 	private List<Message> messages;
-	
+
 	public SearchResult() {
+		this(null);
+	}
+
+	public SearchResult(QueryParam qp) {
+		this.qp = qp;
 		this.totalResults = 0;
 		this.messages = new ArrayList<Message>();
 	}
@@ -131,5 +137,13 @@ public class SearchResult implements Serializable{
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public QueryParam getQp() {
+		return qp;
+	}
+
+	public void setQp(QueryParam qp) {
+		this.qp = qp;
 	}
 }

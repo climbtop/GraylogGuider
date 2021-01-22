@@ -1,5 +1,6 @@
 package com.epo.plugin;
 
+import com.alibaba.fastjson.JSON;
 import com.epo.graylog.GraylogCaller;
 import com.epo.graylog.GraylogClient;
 import com.epo.graylog.bean.AbstractConfig;
@@ -96,6 +97,13 @@ public class GraylogGuiderAction extends AnAction {
         }
     }
 
+    private void clearToConsoleView(AnActionEvent event, String contentName){
+        ConsoleView consoleView = getConsoleView(event,contentName);
+        if(consoleView!=null) {
+            consoleView.clear();
+        }
+    }
+
     private void printToConsoleView(AnActionEvent event, String contentName, String message){
         ConsoleView consoleView = getConsoleView(event,contentName);
         if(consoleView!=null) {
@@ -131,12 +139,14 @@ public class GraylogGuiderAction extends AnAction {
                     }
                 },
                 result->{
+                    String contentName = GraylogToolWindow.CONTENT_NAME;
+                    clearToConsoleView(event, contentName);
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {
-                            printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, msg.getShortMessage());
+                            printToConsoleView(event, contentName, msg.getShortMessage());
                         }
                     }else{
-                        printToConsoleView(event, GraylogToolWindow.CONTENT_NAME, result.getQuery());
+                        printToConsoleView(event, contentName, JSON.toJSONString(result.getQp()));
                     }
                     return 0;
                 }

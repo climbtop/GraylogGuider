@@ -40,7 +40,7 @@ public class QueryRefactor implements Serializable{
 	protected void resovleProjectName(String filePath) {
 		for(String folder : filePath.split("/")) {
 			if(folder==null || folder.trim().length()==0)continue;
-			if("epo-business".equals(folder)||"epo-business".equals(folder)) {
+			if("epo-base".equals(folder)||"epo-business".equals(folder)) {
 				this.projectName = "Hybris";
 				break;
 			}else if("epo-official".equals(folder)) {
