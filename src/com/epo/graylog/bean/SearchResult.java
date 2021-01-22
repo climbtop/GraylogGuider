@@ -62,6 +62,7 @@ public class SearchResult implements Serializable{
 				JSONObject object = messages.getJSONObject(i);
 				JSONObject message = object.getJSONObject("message");
 				Message msg = new Message();
+				msg.setId(message.getString("_id"));
 				msg.setMessage(message.getString("message"));
 				msg.setSource(message.getString("source"));
 				msg.setThreadName(message.getString("threadName"));

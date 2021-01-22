@@ -143,6 +143,7 @@ public class GraylogGuiderAction extends AnAction {
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {
                             printToConsoleView(event, contentName, msg.getShortMessage());
+                            System.out.println(msg.getId()+"\t"+msg.getTimestamp());
                         }
                     }else{
                         printToConsoleView(event, contentName, JSON.toJSONString(result.getQp().getQuery()));

@@ -2,6 +2,7 @@ package com.epo.graylog.bean;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -14,6 +15,7 @@ import java.util.TimeZone;
  */
 @SuppressWarnings("serial")
 public class Message implements Serializable{
+	private String id;
 	private String message;
 	private String source;
 	private String threadName;
@@ -35,13 +37,15 @@ public class Message implements Serializable{
 	public String getShortMessage() {
 		return String.format("%s %s - %s", getDatetime(),getLevelName(), message);
 	}
-	
+
+	public static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.sss\'Z\'");
+	public static SimpleDateFormat sdf2 =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,sss");
 	public String getDatetime() {
 		try{
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.sss\'Z\'");
-			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-			Date date = sdf.parse(timestamp);
-			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,sss").format(date);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(sdf1.parse(timestamp));
+			calendar.add(Calendar.HOUR_OF_DAY, 8);
+			return sdf2.format(calendar.getTime());
 		}catch(Exception e) {
 			return timestamp;
 		}
@@ -152,5 +156,12 @@ public class Message implements Serializable{
 	public void setSourceMethodName(String sourceMethodName) {
 		this.sourceMethodName = sourceMethodName;
 	}
-		
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }
