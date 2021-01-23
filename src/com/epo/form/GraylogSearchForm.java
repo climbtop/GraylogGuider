@@ -1,10 +1,13 @@
 package com.epo.form;
 
 import com.alibaba.fastjson.JSON;
+import com.epo.graylog.bean.impl.ModuleConfig;
 import com.epo.plugin.GraylogGuiderService;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.psi.PsiFile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,10 +26,12 @@ public class GraylogSearchForm {
     private JCheckBox isDetails;
     private JLabel totalRecords;
     private JTextArea consoleView;
+    private String projectPath;
 
     public GraylogSearchForm(Project project, ToolWindow toolWindow){
         this.project = project;
         this.toolWindow = toolWindow;
+        this.projectPath = project.getProjectFilePath();
         this.createContentPanel();
     }
 
@@ -34,7 +39,7 @@ public class GraylogSearchForm {
         mainPanel = new JPanel();
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension dimension = new Dimension((int)screensize.getWidth()-50,
-                (int)screensize.getHeight()/2);
+                (int)screensize.getHeight()-50);
         mainPanel.setPreferredSize(dimension);
         JPanelComp jcom = new JPanelComp(mainPanel);
 
@@ -80,8 +85,10 @@ public class GraylogSearchForm {
         searchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //触发搜索
-                GraylogGuiderService.getInstance().searchGraylogMessage(readSearchParam(), null);
+                //点击按钮触发搜索
+                SearchParam searchParam = new SearchParam();
+                searchParam.setProjectName(ModuleConfig.mappingPath(getProjectPath()));
+                GraylogGuiderService.getInstance().searchGraylogMessage(readSearchParam(), searchParam);
             }
         });
 
@@ -132,6 +139,10 @@ public class GraylogSearchForm {
 
     public JLabel getTotalRecords() {
         return totalRecords;
+    }
+
+    public String getProjectPath() {
+        return projectPath;
     }
 
     public static void main(String[] args) {

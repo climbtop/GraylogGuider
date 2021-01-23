@@ -59,6 +59,7 @@ public class QueryRefactor implements Serializable{
 	}
 
 	protected void resovleFileLineTotal() {
+		if(getSourceFile()==null)return;
 		if (!new File(getSourceFile()).exists());
 		try {
 			LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(getSourceFile()));
@@ -81,7 +82,7 @@ public class QueryRefactor implements Serializable{
 		if(getProjectName()!=null)return;
 		String filePath = getSourceFile().replaceAll("\\\\", "/");
 		for(String folder : filePath.split("/")) {
-			String module = ModuleConfig.mapping(folder);
+			String module = ModuleConfig.mappingFolder(folder);
 			if(module!=null){
 				this.projectName = module;
 				break;

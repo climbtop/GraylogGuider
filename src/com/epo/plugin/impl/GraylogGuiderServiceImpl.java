@@ -79,6 +79,7 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     pr.setLineCount(searchParam.getLineCount());
                     pr.setLineNumber(searchParam.getLineNumber());
                     pr.setSearchText(searchParam.getSearchText());
+                    pr.setProjectName(searchParam.getProjectName());
                 },
                 (pr,qp)->{
                     qp.setLimit(searchConfig.getPageSize()); //pageSize

@@ -7,6 +7,7 @@ public class SearchParam implements Serializable {
     private Integer lineCount;  //编辑器总行数
     private String searchText;  //查询语句
     private Integer lineNumber; //打开文件当前行号数
+    private String projectName; //打开项目名称
 
     public SearchParam(){
     }
@@ -48,5 +49,13 @@ public class SearchParam implements Serializable {
 
     public void setLineCount(Integer lineCount) {
         this.lineCount = lineCount;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

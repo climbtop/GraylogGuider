@@ -82,7 +82,6 @@ public class GraylogClient {
 			token.setUntil(df.parse(until));
 			token.setSession(session);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 		if (token.isValid()) {
