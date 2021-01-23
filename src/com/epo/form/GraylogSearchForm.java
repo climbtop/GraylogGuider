@@ -1,5 +1,6 @@
 package com.epo.form;
 
+import com.alibaba.fastjson.JSON;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.wm.ToolWindow;
@@ -51,7 +52,7 @@ public class GraylogSearchForm {
 
         //第2行
         jcom.add(new JLabel("Range:"), 0, 1, 1, 1);
-        searchRange= new ComboBox<String>(new String[] {"15Min","30Min","1Hour","2Hour","8Hour","1Day","2Day","5Day","7Day","14Day","30Day"});
+        searchRange= new ComboBox<String>(new String[] {"5Min","15Min","30Min","1Hour","2Hour","8Hour","1Day","2Day","5Day","7Day","14Day","30Day"});
         searchRange.setSelectedIndex(1);
         jcom.add(searchRange, 1, 1, 2, 1);
 
@@ -78,10 +79,47 @@ public class GraylogSearchForm {
         searchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("-----");
+                SearchParam searchParam = readSearchParam();
+                System.out.println(JSON.toJSONString(searchParam));
             }
         });
 
+    }
+
+    public SearchParam readSearchParam(){
+        SearchParam searchParam = new SearchParam();
+        searchParam.setEnvironment(String.valueOf(environment.getSelectedItem()));
+        searchParam.setSearchRange(String.valueOf(searchRange.getSelectedItem()));
+        searchParam.setPageSize(String.valueOf(pageSize.getSelectedItem()));
+        searchParam.setSearchText(searchText.getText());
+        searchParam.setIsDetails(isDetails.isSelected()?"Y":"N");
+        searchParam.setSearchRange(String.valueOf(parseRangeMinutes(searchParam.getSearchRange())));
+        return searchParam;
+    }
+
+    public void writeSearchParam(SearchParam searchParam){
+        searchText.setText(searchParam.getSearchText());
+        totalRecords.setText(searchParam.getTotalRecords());
+        consoleView.setText(searchParam.getConsoleView());
+    }
+
+    public Integer parseRangeMinutes(String text){
+        switch(text){
+            case "5Min": return 5*60;
+            case "15Min": return 15*60;
+            case "30Min": return 30*60;
+            case "1Hour": return 1*60*60;
+            case "2Hour": return 2*60*60;
+            case "8Hour": return 8*60*60;
+
+            case "1Day": return 1*24*60*60;
+            case "2Day": return 2*24*60*60;
+            case "5Day": return 5*24*60*60;
+            case "7Day": return 7*24*60*60;
+            case "14Day": return 14*24*60*60;
+            case "30Day": return 30*24*60*60;
+        }
+        return 5*60;
     }
 
     public JPanel getContentPanel(){

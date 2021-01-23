@@ -1,6 +1,8 @@
 package com.epo.form;
 
-public class SearchParam {
+import java.io.Serializable;
+
+public class SearchParam implements Serializable {
     private String environment;
     private String searchText;
     private String searchRange;

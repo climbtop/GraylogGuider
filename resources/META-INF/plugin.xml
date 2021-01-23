@@ -16,9 +16,11 @@
   <idea-version since-build="173.0"/>
 
   <extensions defaultExtensionNs="com.intellij">
-    <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
+      <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
                 icon="/icons/icon13x13.png"
                 factoryClass="com.epo.plugin.GraylogToolWindow"/>
+      <applicationService serviceInterface="com.epo.plugin.GraylogGuiderService"
+                          serviceImplementation="com.epo.plugin.impl.GraylogGuiderServiceImpl"/>
   </extensions>
 
   <actions>
