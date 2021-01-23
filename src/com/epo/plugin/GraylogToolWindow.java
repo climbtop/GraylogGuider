@@ -1,28 +1,36 @@
 package com.epo.plugin;
 
-import com.intellij.execution.filters.TextConsoleBuilderFactory;
-import com.intellij.execution.ui.ConsoleView;
+import com.epo.form.GraylogSearchForm;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
 
 public class GraylogToolWindow implements ToolWindowFactory {
     public static String WINDOW_NAME = "Graylog";
     public static String CONTENT_NAME = "Local";
-    public static String CONTENT_NAME_UAT = "UAT";
-    public static String CONTENT_NAME_PROD = "PROD";
     public static String NOTIFY_NAME = "GraylogTips";
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
-        Content content1 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME, true);
-        toolWindow.getContentManager().addContent(content1);
-        //Content content2 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_UAT, true);
-        //toolWindow.getContentManager().addContent(content2);
-        //Content content3 = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME_PROD, true);
-        //toolWindow.getContentManager().addContent(content3);
+        //创建出GraylogSearchForm对象
+        GraylogSearchForm searchForm = new GraylogSearchForm(project, toolWindow);
+        //获取内容工厂的实例
+        ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
+        //获取用于toolWindow显示的内容
+        Content content = contentFactory.createContent(searchForm.getContentPanel(), CONTENT_NAME, false);
+        //给toolWindow设置内容
+        toolWindow.getContentManager().addContent(content);
     }
+
+    /*
+    @Override
+    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
+        Content content = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME, true);
+        toolWindow.getContentManager().addContent(content);
+    }
+     */
 }
