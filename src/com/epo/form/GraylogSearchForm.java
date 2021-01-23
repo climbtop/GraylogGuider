@@ -33,7 +33,7 @@ public class GraylogSearchForm {
         mainPanel = new JPanel();
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension dimension = new Dimension((int)screensize.getWidth()-50,
-                (int)screensize.getHeight()/3*2);
+                (int)screensize.getHeight()/2);
         mainPanel.setPreferredSize(dimension);
         JPanelComp jcom = new JPanelComp(mainPanel);
 
@@ -79,28 +79,28 @@ public class GraylogSearchForm {
         searchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SearchParam searchParam = readSearchParam();
-                System.out.println(JSON.toJSONString(searchParam));
+                SearchConfig searchConfig = readSearchParam();
+                System.out.println(JSON.toJSONString(searchConfig));
             }
         });
 
     }
 
-    public SearchParam readSearchParam(){
-        SearchParam searchParam = new SearchParam();
-        searchParam.setEnvironment(String.valueOf(environment.getSelectedItem()));
-        searchParam.setSearchRange(String.valueOf(searchRange.getSelectedItem()));
-        searchParam.setPageSize(String.valueOf(pageSize.getSelectedItem()));
-        searchParam.setSearchText(searchText.getText());
-        searchParam.setIsDetails(isDetails.isSelected()?"Y":"N");
-        searchParam.setSearchRange(String.valueOf(parseRangeMinutes(searchParam.getSearchRange())));
-        return searchParam;
+    public SearchConfig readSearchParam(){
+        SearchConfig searchConfig = new SearchConfig();
+        searchConfig.setEnvironment(String.valueOf(environment.getSelectedItem()));
+        searchConfig.setSearchRange(String.valueOf(searchRange.getSelectedItem()));
+        searchConfig.setPageSize(String.valueOf(pageSize.getSelectedItem()));
+        searchConfig.setSearchText(searchText.getText());
+        searchConfig.setIsDetails(isDetails.isSelected()?"Y":"N");
+        searchConfig.setSearchRange(String.valueOf(parseRangeMinutes(searchConfig.getSearchRange())));
+        return searchConfig;
     }
 
-    public void writeSearchParam(SearchParam searchParam){
-        searchText.setText(searchParam.getSearchText());
-        totalRecords.setText(searchParam.getTotalRecords());
-        consoleView.setText(searchParam.getConsoleView());
+    public void writeSearchParam(SearchConfig searchConfig){
+        searchText.setText(searchConfig.getSearchText());
+        totalRecords.setText(searchConfig.getTotalRecords());
+        consoleView.setText(searchConfig.getConsoleView());
     }
 
     public Integer parseRangeMinutes(String text){
@@ -111,7 +111,6 @@ public class GraylogSearchForm {
             case "1Hour": return 1*60*60;
             case "2Hour": return 2*60*60;
             case "8Hour": return 8*60*60;
-
             case "1Day": return 1*24*60*60;
             case "2Day": return 2*24*60*60;
             case "5Day": return 5*24*60*60;
@@ -126,6 +125,14 @@ public class GraylogSearchForm {
         return mainPanel;
     }
 
+    public JTextArea getConsoleView() {
+        return consoleView;
+    }
+
+    public JLabel getTotalRecords() {
+        return totalRecords;
+    }
+
     public static void main(String[] args) {
         GraylogSearchForm form = new GraylogSearchForm(null,null);
         JFrame jf=new JFrame();
@@ -134,5 +141,6 @@ public class GraylogSearchForm {
         jf.pack();
         jf.setVisible(true);
     }
+
 
 }

@@ -19,6 +19,10 @@
       <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
                 icon="/icons/icon13x13.png"
                 factoryClass="com.epo.plugin.GraylogToolWindow"/>
+    <toolWindow id="Graylog2" canCloseContents="true"  anchor="bottom"
+                icon="/icons/icon13x13.png"
+                factoryClass="com.epo.plugin.GraylogToolWindow2"/>
+
       <applicationService serviceInterface="com.epo.plugin.GraylogGuiderService"
                           serviceImplementation="com.epo.plugin.impl.GraylogGuiderServiceImpl"/>
   </extensions>

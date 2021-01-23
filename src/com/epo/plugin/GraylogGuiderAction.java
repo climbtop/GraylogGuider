@@ -29,7 +29,7 @@ import java.util.Map;
 public class GraylogGuiderAction extends AnAction {
     private Map<String,Boolean> isFileInitMap = new HashMap<String,Boolean>();
     private Map<String,EditorMouseListener> editorMouseMap = new HashMap<String,EditorMouseListener>();
-    private GraylogClient client = new GraylogClient();
+
 
     private void unInitPsiFileListener(AnActionEvent event){
         PsiFile psiFile = event.getData(PlatformDataKeys.PSI_FILE);
@@ -129,6 +129,7 @@ public class GraylogGuiderAction extends AnAction {
     }
 
     public void searchGraylogMessage(final AnActionEvent event, AbstractConfig ac, String psiFile, int searchLine, int lineCount, String searchText){
+        GraylogClient client = GraylogGuiderService.getInstance().getClient();
         GraylogCaller.callWebService(client, ac,
                 pr->{
                     pr.setSourceFile(psiFile);

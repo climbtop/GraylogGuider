@@ -3,20 +3,19 @@ package com.epo.form;
 import java.io.Serializable;
 
 public class SearchParam implements Serializable {
-    private String environment;
-    private String searchText;
-    private String searchRange;
-    private String pageSize;
-    private String isDetails;
-    private String totalRecords;
-    private String consoleView;
+    private String searchText;  //查询语句
+    private String sourceFile;  //打开文件全路径
+    private Integer lineNumber; //打开文件当前行号数
+    private Integer lineCount;  //编辑器总行数
 
-    public String getEnvironment() {
-        return environment;
+    public SearchParam(){
     }
 
-    public void setEnvironment(String environment) {
-        this.environment = environment;
+    public SearchParam(String sourceFile, Integer lineNumber, String searchText,Integer lineCount){
+        this.sourceFile = sourceFile;
+        this.lineNumber = lineNumber;
+        this.searchText = searchText;
+        this.lineCount = lineCount;
     }
 
     public String getSearchText() {
@@ -27,43 +26,27 @@ public class SearchParam implements Serializable {
         this.searchText = searchText;
     }
 
-    public String getSearchRange() {
-        return searchRange;
+    public String getSourceFile() {
+        return sourceFile;
     }
 
-    public void setSearchRange(String searchRange) {
-        this.searchRange = searchRange;
+    public void setSourceFile(String sourceFile) {
+        this.sourceFile = sourceFile;
     }
 
-    public String getPageSize() {
-        return pageSize;
+    public Integer getLineNumber() {
+        return lineNumber;
     }
 
-    public void setPageSize(String pageSize) {
-        this.pageSize = pageSize;
+    public void setLineNumber(Integer lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
-    public String getIsDetails() {
-        return isDetails;
+    public Integer getLineCount() {
+        return lineCount;
     }
 
-    public void setIsDetails(String isDetails) {
-        this.isDetails = isDetails;
-    }
-
-    public String getTotalRecords() {
-        return totalRecords;
-    }
-
-    public void setTotalRecords(String totalRecords) {
-        this.totalRecords = totalRecords;
-    }
-
-    public String getConsoleView() {
-        return consoleView;
-    }
-
-    public void setConsoleView(String consoleView) {
-        this.consoleView = consoleView;
+    public void setLineCount(Integer lineCount) {
+        this.lineCount = lineCount;
     }
 }
