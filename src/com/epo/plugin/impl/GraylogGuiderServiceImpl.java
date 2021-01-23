@@ -69,6 +69,7 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
         }
     }
 
+    @Override
     public void searchGraylogMessage(final SearchConfig searchConfig, final SearchParam searchParam){
         if(searchConfig==null) return;
         AbstractConfig ac = getAbstractConfig(searchConfig);

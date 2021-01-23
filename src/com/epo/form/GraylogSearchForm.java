@@ -1,6 +1,7 @@
 package com.epo.form;
 
 import com.alibaba.fastjson.JSON;
+import com.epo.plugin.GraylogGuiderService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.wm.ToolWindow;
@@ -79,8 +80,8 @@ public class GraylogSearchForm {
         searchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SearchConfig searchConfig = readSearchParam();
-                System.out.println(JSON.toJSONString(searchConfig));
+                //触发搜索
+                GraylogGuiderService.getInstance().searchGraylogMessage(readSearchParam(), null);
             }
         });
 

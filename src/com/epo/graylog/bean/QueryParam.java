@@ -28,7 +28,7 @@ public class QueryParam implements Serializable{
 	}
 	
 	public boolean isValid() {
-		return pr.isValid();
+		return query!=null && filter!=null && range!=null && limit!=null;
 	}
 
 	public String getQuery() {

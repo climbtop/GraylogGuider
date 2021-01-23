@@ -3,10 +3,10 @@ package com.epo.form;
 import java.io.Serializable;
 
 public class SearchParam implements Serializable {
-    private String searchText;  //查询语句
     private String sourceFile;  //打开文件全路径
-    private Integer lineNumber; //打开文件当前行号数
     private Integer lineCount;  //编辑器总行数
+    private String searchText;  //查询语句
+    private Integer lineNumber; //打开文件当前行号数
 
     public SearchParam(){
     }

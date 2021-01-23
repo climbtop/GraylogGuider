@@ -39,7 +39,7 @@ public class QueryRefactor implements Serializable{
 	}
 	
 	public boolean isValid() {
-		return fileName!=null && projectName!=null && streamsId!=null && lineTotal !=null;
+		return sourceFile!=null && fileName!=null && projectName!=null && streamsId!=null;
 	}
 	
 	public void resovleMoreInfo() {

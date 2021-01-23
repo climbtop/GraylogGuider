@@ -140,12 +140,16 @@ public class GraylogGuiderAction extends AnAction {
                 (pr,qp)->{
                     qp.setLimit("50"); //pageSize
                     qp.setRange(String.valueOf(30 * 60)); //30 minutes
-                    if(StringUtils.isNotEmpty(pr.getSearchText())){
-                        qp.setQuery(String.format("sourceFileName:%s AND message:\"%s\"",
-                                pr.getFileName(), pr.getSearchText()));
-                    }else {
-                        qp.setQuery(String.format("sourceFileName:%s AND sourceLineNumber:%s",
-                                pr.getFileName(), pr.getLineNumber()));
+                    if(pr.isValid()) {
+                        if (StringUtils.isNotEmpty(pr.getSearchText())) {
+                            qp.setQuery(String.format("sourceFileName:%s AND message:\"%s\"",
+                                    pr.getFileName(), pr.getSearchText()));
+                        } else {
+                            qp.setQuery(String.format("sourceFileName:%s AND sourceLineNumber:%s",
+                                    pr.getFileName(), pr.getLineNumber()));
+                        }
+                    }else{
+                        qp.setQuery(pr.getSearchText());
                     }
                 },
                 result->{
