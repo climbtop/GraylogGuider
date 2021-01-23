@@ -5,7 +5,7 @@ public class ModuleConfig {
     public static String mapping(String folder){
         if(folder==null || folder.trim().length()==0)
             return null;
-        if("epo-base".equals(folder)||"epo-business".equals(folder)) {
+        if("epo-base".equals(folder)||"epo-business".equals(folder)||"hybris".equals(folder)) {
             return "Hybris";
         }else if("epo-official".equals(folder)) {
             return "MALL";

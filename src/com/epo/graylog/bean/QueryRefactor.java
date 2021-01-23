@@ -78,6 +78,7 @@ public class QueryRefactor implements Serializable{
 	
 	protected void resovleProjectName() {
 		if(getSourceFile()==null)return;
+		if(getProjectName()!=null)return;
 		String filePath = getSourceFile().replaceAll("\\\\", "/");
 		for(String folder : filePath.split("/")) {
 			String module = ModuleConfig.mapping(folder);
