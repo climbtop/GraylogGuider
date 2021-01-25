@@ -74,6 +74,9 @@ public class QueryRefactor implements Serializable{
 			return;
 		}
 		setAmendCount(Math.abs(getLineTotal()-getLineCount()));
+		if(getLineNumber()==null || getAmendCount()==null) {
+			return;
+		}
 		setLineNumber(getLineNumber() + getAmendCount());
 	}
 	

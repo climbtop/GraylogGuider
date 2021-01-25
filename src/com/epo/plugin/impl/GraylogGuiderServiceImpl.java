@@ -51,19 +51,6 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
         return null;
     }
 
-    private void pushToConsoleView(SearchResult result){
-        if(getSearchForm()!=null){
-            getSearchForm().getConsoleView().setText("");
-            getSearchForm().getTotalRecords().setText(String.valueOf(result.getTotalResults()));
-        }
-    }
-
-    private void printToConsoleView(String message){
-        if(getSearchForm()!=null){
-            getSearchForm().getConsoleView().append(message);
-        }
-    }
-
     @Override
     public void searchGraylogMessage(final SearchParam searchParam){
         if(getSearchForm()!=null){
@@ -110,18 +97,17 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     qp.setQuery(searchConfig.getSearchText());
                 },
                 result->{
-                    pushToConsoleView(result);
+                    GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
+                    searchForm.emptyToConsoleView(result);
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {
                             String message = ("Y".equals(searchConfig.getIsDetails())?
                                     msg.getFullMessage():msg.getShortMessage());
-                            printToConsoleView(message);
+                            searchForm.printToConsoleView(message);
                         }
                     }else{
-                        printToConsoleView(JSON.toJSONString(result.getQp().getQuery()));
+                        searchForm.printToConsoleView(JSON.toJSONString(result.getQp().getQuery()));
                     }
-                    searchConfig.setTotalRecords(String.valueOf(result.getTotalResults()));
-                    GraylogGuiderService.getInstance().getSearchForm().writeSearchParam(searchConfig);
                     return 0;
                 }
         );

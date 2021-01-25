@@ -1,5 +1,6 @@
 package com.epo.form;
 
+import com.epo.graylog.bean.SearchResult;
 import com.epo.graylog.bean.impl.ModuleConfig;
 import com.epo.plugin.GraylogGuiderService;
 import com.intellij.openapi.project.Project;
@@ -96,12 +97,12 @@ public class GraylogSearchForm {
             public void actionPerformed(ActionEvent e) {
                 //点击按钮触发搜索
                 SearchParam searchParam = new SearchParam();
-                //searchParam.setProjectName(ModuleConfig.mappingPath(getProjectPath()));
-                searchParam.setProjectName(String.valueOf(searchProject.getSelectedItem()));
                 GraylogGuiderService.getInstance().searchGraylogMessage(readSearchParam(), searchParam);
             }
         });
 
+        searchText.setText("syncJpdUpdated");
+        searchRange.setSelectedItem("1Day");
     }
 
     public SearchConfig readSearchParam(){
@@ -116,11 +117,13 @@ public class GraylogSearchForm {
         return searchConfig;
     }
 
-    public void writeSearchParam(SearchConfig searchConfig){
-        searchText.setText(searchConfig.getSearchText());
-        searchProject.setSelectedItem(searchConfig.getProjectName());
-        totalRecords.setText(searchConfig.getTotalRecords());
-        consoleView.setText(searchConfig.getConsoleView());
+    public void emptyToConsoleView(SearchResult result){
+        getConsoleView().setText("");
+        getTotalRecords().setText(String.valueOf(result.getTotalResults()));
+    }
+
+    public void printToConsoleView(String message){
+        getConsoleView().append(message);
     }
 
     public Integer parseRangeMinutes(String text){
