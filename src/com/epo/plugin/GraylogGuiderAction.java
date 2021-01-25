@@ -1,6 +1,7 @@
 package com.epo.plugin;
 
 import com.alibaba.fastjson.JSON;
+import com.epo.form.SearchParam;
 import com.epo.graylog.GraylogCaller;
 import com.epo.graylog.GraylogClient;
 import com.epo.graylog.bean.AbstractConfig;
@@ -180,6 +181,14 @@ public class GraylogGuiderAction extends AnAction {
 
                 //searchGraylogMessage(event, new ProdConfig(), psiFile, searchLine, lineCount, searchText);
                 searchGraylogMessage(event, new UatConfig(), psiFile, searchLine, lineCount, searchText);
+
+                //Graylog2查询方式
+                SearchParam searchParam = new SearchParam();
+                searchParam.setLineCount(lineCount);
+                searchParam.setLineNumber(searchLine);
+                searchParam.setSourceFile(psiFile);
+                searchParam.setSearchText(searchText);
+                GraylogGuiderService.getInstance().searchGraylogMessage(searchParam);
             }
         };
 

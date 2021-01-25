@@ -82,6 +82,7 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
 
                     if(StringUtil.isNotEmpty(searchParam.getSearchText())) {
                         pr.setSearchText(searchParam.getSearchText());
+                        searchConfig.setSearchText(searchParam.getSearchText());
                     }else{
                         pr.setSearchText(searchConfig.getSearchText());
                     }
@@ -89,7 +90,11 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                         pr.setProjectName(searchParam.getProjectName());
                     }else{
                         pr.setProjectName(searchConfig.getProjectName());
+                        searchConfig.setProjectName(searchConfig.getProjectName());
                     }
+
+                    GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
+                    searchForm.writeSearchParam(searchConfig);
                 },
                 (pr,qp)->{
                     qp.setLimit(searchConfig.getPageSize()); //pageSize

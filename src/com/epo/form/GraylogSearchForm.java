@@ -117,6 +117,11 @@ public class GraylogSearchForm {
         return searchConfig;
     }
 
+    public void writeSearchParam(SearchConfig searchConfig){
+        searchProject.setSelectedItem(searchConfig.getProjectName());
+        searchText.setText(searchConfig.getSearchText());
+    }
+
     public void emptyToConsoleView(SearchResult result){
         getConsoleView().setText("");
         getTotalRecords().setText(String.valueOf(result.getTotalResults()));
