@@ -107,7 +107,7 @@ public class GraylogSearchForm {
     public SearchConfig readSearchParam(){
         SearchConfig searchConfig = new SearchConfig();
         searchConfig.setEnvironment(String.valueOf(environment.getSelectedItem()));
-        searchConfig.setSearchProject(String.valueOf(searchProject.getSelectedItem()));
+        searchConfig.setProjectName(String.valueOf(searchProject.getSelectedItem()));
         searchConfig.setSearchRange(String.valueOf(searchRange.getSelectedItem()));
         searchConfig.setPageSize(String.valueOf(pageSize.getSelectedItem()));
         searchConfig.setSearchText(searchText.getText());
@@ -118,6 +118,7 @@ public class GraylogSearchForm {
 
     public void writeSearchParam(SearchConfig searchConfig){
         searchText.setText(searchConfig.getSearchText());
+        searchProject.setSelectedItem(searchConfig.getProjectName());
         totalRecords.setText(searchConfig.getTotalRecords());
         consoleView.setText(searchConfig.getConsoleView());
     }

@@ -14,6 +14,8 @@ import com.epo.graylog.bean.impl.SitConfig;
 import com.epo.graylog.bean.impl.UatConfig;
 import com.epo.plugin.GraylogGuiderService;
 import com.epo.plugin.GraylogToolWindow;
+import com.intellij.openapi.util.text.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 public class GraylogGuiderServiceImpl implements GraylogGuiderService {
 
@@ -75,11 +77,32 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
         AbstractConfig ac = getAbstractConfig(searchConfig);
         GraylogCaller.callWebService(client, ac,
                 pr->{
-                    pr.setSourceFile(searchParam.getSourceFile());
-                    pr.setLineCount(searchParam.getLineCount());
-                    pr.setLineNumber(searchParam.getLineNumber());
-                    pr.setSearchText(searchParam.getSearchText());
-                    pr.setProjectName(searchParam.getProjectName());
+                    if(StringUtils.isNotEmpty(searchParam.getSourceFile()) && searchParam.getLineNumber()!=null){
+                        pr.setSourceFile(searchParam.getSourceFile());
+                        pr.setLineNumber(searchParam.getLineNumber());
+                        pr.setLineCount(searchParam.getLineCount());
+                        pr.resovleMoreInfo();
+
+                        if (StringUtils.isNotEmpty(searchParam.getSearchText())) {
+                            searchParam.setSearchText(String.format("sourceFileName:%s AND message:\"%s\"",
+                                    pr.getFileName(), searchParam.getSearchText()));
+                        } else {
+                            searchParam.setSearchText(String.format("sourceFileName:%s AND sourceLineNumber:%s",
+                                    pr.getFileName(), pr.getLineNumber()));
+                        }
+                        searchParam.setProjectName(pr.getProjectName());
+                    }
+
+                    if(StringUtil.isNotEmpty(searchParam.getSearchText())) {
+                        pr.setSearchText(searchParam.getSearchText());
+                    }else{
+                        pr.setSearchText(searchConfig.getSearchText());
+                    }
+                    if(StringUtil.isNotEmpty(searchParam.getProjectName())) {
+                        pr.setProjectName(searchParam.getProjectName());
+                    }else{
+                        pr.setProjectName(searchConfig.getProjectName());
+                    }
                 },
                 (pr,qp)->{
                     qp.setLimit(searchConfig.getPageSize()); //pageSize
@@ -97,6 +120,8 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     }else{
                         printToConsoleView(JSON.toJSONString(result.getQp().getQuery()));
                     }
+                    searchConfig.setTotalRecords(String.valueOf(result.getTotalResults()));
+                    GraylogGuiderService.getInstance().getSearchForm().writeSearchParam(searchConfig);
                     return 0;
                 }
         );

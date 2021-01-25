@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class SearchConfig implements Serializable {
     private String environment;
     private String searchText;
-    private String searchProject;
+    private String projectName;
     private String searchRange;
     private String pageSize;
     private String isDetails;
@@ -68,11 +68,11 @@ public class SearchConfig implements Serializable {
         this.consoleView = consoleView;
     }
 
-    public String getSearchProject() {
-        return searchProject;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setSearchProject(String searchProject) {
-        this.searchProject = searchProject;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }
