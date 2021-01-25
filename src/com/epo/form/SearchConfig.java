@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class SearchConfig implements Serializable {
     private String environment;
     private String searchText;
+    private String searchProject;
     private String searchRange;
     private String pageSize;
     private String isDetails;
@@ -65,5 +66,13 @@ public class SearchConfig implements Serializable {
 
     public void setConsoleView(String consoleView) {
         this.consoleView = consoleView;
+    }
+
+    public String getSearchProject() {
+        return searchProject;
+    }
+
+    public void setSearchProject(String searchProject) {
+        this.searchProject = searchProject;
     }
 }

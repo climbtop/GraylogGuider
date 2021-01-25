@@ -45,6 +45,7 @@ public class SearchResult implements Serializable{
 		try {
 			setContent(content);
 			JSONObject object = JSON.parseObject(content);
+			if(object==null) return;
 			this.query = object.getString("query");
 			this.from = object.getString("from");
 			this.to = object.getString("to");
