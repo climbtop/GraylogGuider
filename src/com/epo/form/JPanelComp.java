@@ -40,6 +40,7 @@ public class JPanelComp {
         int comH = Double.valueOf((h*1.0/PH) * winDim.getHeight()).intValue();
         //System.out.println(""+x+","+y+", "+comW+","+comH);
         comp.setPreferredSize(new Dimension(comW, comH));
+        comp.setSize(new Dimension(comW, comH));
     }
 
     public void setSize(Dimension winDim){

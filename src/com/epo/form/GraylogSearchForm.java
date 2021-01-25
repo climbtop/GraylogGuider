@@ -89,7 +89,8 @@ public class GraylogSearchForm {
 
         //第3行
         consoleView = new JTextArea();
-        jcom.add(consoleView, 0, 2, 20, 4);
+        consoleView.setAutoscrolls(true);
+        jcom.add(consoleView, 0, 2, 20, 3);
 
         //组件操作
         searchBtn.addActionListener(new ActionListener() {
@@ -101,8 +102,7 @@ public class GraylogSearchForm {
             }
         });
 
-        searchText.setText("syncJpdUpdated");
-        searchRange.setSelectedItem("1Day");
+        searchText.setText("Exception");
     }
 
     public SearchConfig readSearchParam(){
