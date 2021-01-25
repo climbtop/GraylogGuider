@@ -26,6 +26,14 @@ public class QueryParam implements Serializable{
 		this.sort = "timestamp:desc";
 		this.enc = "UTF-8";
 	}
+
+	public void checkEmptyAndFill(){
+		if(query==null) query = "";
+		if(range==null) range = "";
+		if(filter==null) filter = "";
+		if(limit==null) limit = "";
+		if(sort==null) sort = "";
+	}
 	
 	public boolean isValid() {
 		return query!=null && filter!=null && range!=null && limit!=null;

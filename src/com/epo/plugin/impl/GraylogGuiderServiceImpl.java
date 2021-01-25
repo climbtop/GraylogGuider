@@ -103,10 +103,10 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                         for(Message msg : result.getMessages()) {
                             String message = ("Y".equals(searchConfig.getIsDetails())?
                                     msg.getFullMessage():msg.getShortMessage());
-                            searchForm.printToConsoleView(message);
+                            searchForm.printToConsoleView(message+"\n");
                         }
                     }else{
-                        searchForm.printToConsoleView(JSON.toJSONString(result.getQp().getQuery()));
+                        searchForm.printToConsoleView(JSON.toJSONString(result.getQp().getQuery())+"\n");
                     }
                     return 0;
                 }

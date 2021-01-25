@@ -93,6 +93,7 @@ public class GraylogClient {
 	private String getReqURL(QueryParam qp) {
 		StringBuffer sb = new StringBuffer();
 		try {
+			qp.checkEmptyAndFill();
 			sb.append("?query=" + URLEncoder.encode(qp.getQuery(), qp.getEnc()));
 			sb.append("&filter=" + URLEncoder.encode(qp.getFilter(), qp.getEnc()));
 			sb.append("&limit=" + URLEncoder.encode(qp.getLimit(), qp.getEnc()));
