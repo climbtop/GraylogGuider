@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GraylogGuiderAction extends AnAction {
-    private Map<String,Boolean> isFileInitMap = new HashMap<String,Boolean>();
     private Map<String,EditorMouseListener> editorMouseMap = new HashMap<String,EditorMouseListener>();
 
 
@@ -37,22 +36,17 @@ public class GraylogGuiderAction extends AnAction {
         if(psiFile==null || psiFile.getVirtualFile()==null) return;
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
 
-        Boolean initFlag = isFileInitMap.get(virtualFile);
-        if(initFlag==null || !initFlag) return;
-        isFileInitMap.remove(virtualFile);
-
         EditorMouseListener listener = editorMouseMap.get(virtualFile);
-        if(listener!=null){
-            // 获取数据上下文
-            DataContext dataContext = event.getDataContext();
+        if(listener==null) return;
 
-            // 获取到数据上下文后，通过CommonDataKeys对象可以获得该File的所有信息
-            Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
-            Document document = editor.getDocument();
+        // 获取数据上下文
+        DataContext dataContext = event.getDataContext();
 
-            editorMouseMap.remove(virtualFile);
-            editor.removeEditorMouseListener(listener);
-        }
+        // 获取到数据上下文后，通过CommonDataKeys对象可以获得该File的所有信息
+        Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
+
+        editor.removeEditorMouseListener(listener);
+        editorMouseMap.remove(virtualFile);
     }
 
     private boolean initPsiFileListener(AnActionEvent event,final GraylogCallback callback){
@@ -60,60 +54,27 @@ public class GraylogGuiderAction extends AnAction {
         if(psiFile==null || psiFile.getVirtualFile()==null) return false;
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
 
-        Boolean initFlag = isFileInitMap.get(virtualFile);
-        if(initFlag!=null && initFlag) return false;
-
-        // 获取当前的project对象
-        Project project = event.getProject();
+        EditorMouseListener listener = editorMouseMap.get(virtualFile);
+        if(listener!=null) return false;
 
         // 获取数据上下文
         DataContext dataContext = event.getDataContext();
-
         // 获取到数据上下文后，通过CommonDataKeys对象可以获得该File的所有信息
         Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
+        // 获取当前的project对象
+        Project project = event.getProject();
         Document document = editor.getDocument();
-        SelectionModel selectionModel = editor.getSelectionModel();
 
-        EditorMouseListener listener = new EditorMouseListener() {
+       listener = new EditorMouseListener() {
             @Override
             public void mouseClicked(@NotNull EditorMouseEvent event) {
                 callback.trigger(virtualFile, editor);
             }
         };
-        editorMouseMap.put(virtualFile, listener);
+
         editor.addEditorMouseListener(listener);
-        isFileInitMap.put(virtualFile,Boolean.TRUE);
+        editorMouseMap.put(virtualFile, listener);
         return true;
-    }
-
-    private ConsoleView getConsoleView(AnActionEvent event, String contentName){
-        try {
-            ToolWindow toolWindow = ToolWindowManager.getInstance(event.getProject())
-                    .getToolWindow(GraylogToolWindow.WINDOW_NAME);
-            if (toolWindow == null) return null;
-            ContentManager contentManager = toolWindow.getContentManager();
-            if (contentManager == null) return null;
-            Content content = contentManager.findContent(contentName);
-            if (content == null) return null;
-            ConsoleView consoleView = (ConsoleView) content.getComponent();
-            return consoleView;
-        }catch(Throwable e){
-            return null;
-        }
-    }
-
-    private void clearToConsoleView(AnActionEvent event, String contentName){
-        ConsoleView consoleView = getConsoleView(event,contentName);
-        if(consoleView!=null) {
-            consoleView.clear();
-        }
-    }
-
-    private void printToConsoleView(AnActionEvent event, String contentName, String message){
-        ConsoleView consoleView = getConsoleView(event,contentName);
-        if(consoleView!=null) {
-            consoleView.print(message+"\r\n", ConsoleViewContentType.NORMAL_OUTPUT);
-        }
     }
 
     public void showNotifyTip(String message){

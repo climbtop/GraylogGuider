@@ -6,6 +6,7 @@ import com.epo.plugin.GraylogGuiderService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.ui.components.JBScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -92,7 +93,8 @@ public class GraylogSearchForm {
         consoleView.setAutoscrolls(true);
         consoleView.setMargin(new Insets(5,5,5,5));
         consoleView.setBackground(new Color(42,42,42));
-        jcom.add(consoleView, 0, 2, 20, 4);
+        JBScrollPane jbScrollPane = new JBScrollPane(consoleView);
+        jcom.add(jbScrollPane, 0, 2, 20, 4);
 
         //组件操作
         searchBtn.addActionListener(new ActionListener() {
