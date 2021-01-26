@@ -54,7 +54,7 @@ public class GraylogSearchForm {
         environment.setSelectedIndex(1);
         jcom.add(environment, 1, 0, 2, 1);
 
-        jcom.add(new JLabel("Word:"), 3, 0, 1, 1);
+        jcom.add(new JLabel("Words:"), 3, 0, 1, 1);
         searchText = new JTextField("");
         jcom.add(searchText, 4, 0, 14, 1);
 
@@ -69,7 +69,7 @@ public class GraylogSearchForm {
 
         jcom.add(new JLabel("Range:"), 3, 1, 1, 1);
         searchRange= new ComboBox<String>(new String[] {"5Min","15Min","30Min","1Hour","2Hour","8Hour","1Day","2Day","5Day","7Day","14Day","30Day"});
-        searchRange.setSelectedIndex(1);
+        searchRange.setSelectedIndex(3);
         jcom.add(searchRange, 4, 1, 2, 1);
 
         jcom.add(new JLabel("Size:"), 6, 1, 1, 1);
@@ -81,7 +81,7 @@ public class GraylogSearchForm {
         isDetails = new JCheckBox();
         jcom.add(isDetails, 10, 1, 1, 1);
 
-        jcom.add(new JPanel(), 11, 1, 8, 1);
+        jcom.add(new JPanel(), 11, 1, 6, 1);
 
         jcom.add(new JLabel("Total:"), 17, 1, 1, 1);
         totalRecords = new JLabel("0");
@@ -90,7 +90,9 @@ public class GraylogSearchForm {
         //第3行
         consoleView = new JTextArea();
         consoleView.setAutoscrolls(true);
-        jcom.add(consoleView, 0, 2, 20, 3);
+        consoleView.setMargin(new Insets(5,5,5,5));
+        consoleView.setBackground(new Color(42,42,42));
+        jcom.add(consoleView, 0, 2, 20, 4);
 
         //组件操作
         searchBtn.addActionListener(new ActionListener() {
@@ -102,7 +104,6 @@ public class GraylogSearchForm {
             }
         });
 
-        searchText.setText("Exception");
     }
 
     public SearchConfig readSearchParam(){
@@ -120,6 +121,8 @@ public class GraylogSearchForm {
     public void writeSearchParam(SearchConfig searchConfig){
         searchProject.setSelectedItem(searchConfig.getProjectName());
         searchText.setText(searchConfig.getSearchText());
+        totalRecords.setText("0");
+        consoleView.setText("");
     }
 
     public void emptyToConsoleView(SearchResult result){

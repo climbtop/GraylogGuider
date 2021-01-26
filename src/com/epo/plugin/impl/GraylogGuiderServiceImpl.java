@@ -88,9 +88,9 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     }
                     if(StringUtil.isNotEmpty(searchParam.getProjectName())) {
                         pr.setProjectName(searchParam.getProjectName());
+                        searchConfig.setProjectName(searchParam.getProjectName());
                     }else{
                         pr.setProjectName(searchConfig.getProjectName());
-                        searchConfig.setProjectName(searchConfig.getProjectName());
                     }
 
                     GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();

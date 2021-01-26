@@ -34,6 +34,7 @@ public class GraylogGuiderAction extends AnAction {
 
     private void unInitPsiFileListener(AnActionEvent event){
         PsiFile psiFile = event.getData(PlatformDataKeys.PSI_FILE);
+        if(psiFile==null || psiFile.getVirtualFile()==null) return;
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
 
         Boolean initFlag = isFileInitMap.get(virtualFile);
@@ -56,6 +57,7 @@ public class GraylogGuiderAction extends AnAction {
 
     private boolean initPsiFileListener(AnActionEvent event,final GraylogCallback callback){
         PsiFile psiFile = event.getData(PlatformDataKeys.PSI_FILE);
+        if(psiFile==null || psiFile.getVirtualFile()==null) return false;
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
 
         Boolean initFlag = isFileInitMap.get(virtualFile);
@@ -129,60 +131,17 @@ public class GraylogGuiderAction extends AnAction {
         callback.trigger(virtualFile, editor);
     }
 
-    public void searchGraylogMessage(final AnActionEvent event, AbstractConfig ac, String psiFile, int searchLine, int lineCount, String searchText){
-        GraylogClient client = GraylogGuiderService.getInstance().getClient();
-        GraylogCaller.callWebService(client, ac,
-                pr->{
-                    pr.setSourceFile(psiFile);
-                    pr.setLineCount(lineCount);
-                    pr.setLineNumber(searchLine);
-                    pr.setSearchText(searchText);
-                },
-                (pr,qp)->{
-                    qp.setLimit("50"); //pageSize
-                    qp.setRange(String.valueOf(30 * 60)); //30 minutes
-                    if(pr.isValid()) {
-                        if (StringUtils.isNotEmpty(pr.getSearchText())) {
-                            qp.setQuery(String.format("sourceFileName:%s AND message:\"%s\"",
-                                    pr.getFileName(), pr.getSearchText()));
-                        } else {
-                            qp.setQuery(String.format("sourceFileName:%s AND sourceLineNumber:%s",
-                                    pr.getFileName(), pr.getLineNumber()));
-                        }
-                    }else{
-                        qp.setQuery(pr.getSearchText());
-                    }
-                },
-                result->{
-                    String contentName = GraylogToolWindow.CONTENT_NAME;
-                    clearToConsoleView(event, contentName);
-                    if(result.hasResults()) {
-                        for(Message msg : result.getMessages()) {
-                            printToConsoleView(event, contentName, msg.getShortMessage());
-                            System.out.println(msg.getId()+"\t"+msg.getTimestamp());
-                        }
-                    }else{
-                        printToConsoleView(event, contentName, JSON.toJSONString(result.getQp().getQuery()));
-                    }
-                    return 0;
-                }
-        );
-    }
-
     @Override
     public void actionPerformed(AnActionEvent event) {
         GraylogCallback callback = new GraylogCallback() {
             @Override
             public void trigger(String psiFile, Editor editor) {
+                //提取查询参数
                 SelectionModel selectionModel = editor.getSelectionModel();
                 String searchText = selectionModel.getSelectedText();
                 int searchLine = selectionModel.getSelectionStartPosition().getLine()+1;
                 int lineCount = editor.getDocument().getLineCount();
-
-                //searchGraylogMessage(event, new ProdConfig(), psiFile, searchLine, lineCount, searchText);
-                searchGraylogMessage(event, new UatConfig(), psiFile, searchLine, lineCount, searchText);
-
-                //Graylog2查询方式
+                //Graylog查询方式
                 SearchParam searchParam = new SearchParam();
                 searchParam.setLineCount(lineCount);
                 searchParam.setLineNumber(searchLine);
