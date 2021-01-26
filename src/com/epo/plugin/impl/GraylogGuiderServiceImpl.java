@@ -8,12 +8,10 @@ import com.epo.graylog.GraylogCaller;
 import com.epo.graylog.GraylogClient;
 import com.epo.graylog.bean.AbstractConfig;
 import com.epo.graylog.bean.Message;
-import com.epo.graylog.bean.SearchResult;
 import com.epo.graylog.bean.impl.ProdConfig;
 import com.epo.graylog.bean.impl.SitConfig;
 import com.epo.graylog.bean.impl.UatConfig;
 import com.epo.plugin.GraylogGuiderService;
-import com.epo.plugin.GraylogToolWindow;
 import com.intellij.openapi.util.text.StringUtil;
 import org.apache.commons.lang.StringUtils;
 

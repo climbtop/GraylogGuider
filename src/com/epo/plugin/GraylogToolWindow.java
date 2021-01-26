@@ -1,8 +1,6 @@
 package com.epo.plugin;
 
 import com.epo.form.GraylogSearchForm;
-import com.intellij.execution.filters.TextConsoleBuilderFactory;
-import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -13,13 +11,21 @@ import org.jetbrains.annotations.NotNull;
 public class GraylogToolWindow implements ToolWindowFactory {
     public static String WINDOW_NAME = "Graylog";
     public static String CONTENT_NAME = "Local";
-    public static String NOTIFY_NAME = "GraylogTips";
-
+    public static String NOTIFY_NAME = "Notify";
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
-        Content content = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), CONTENT_NAME, true);
+        //创建出GraylogSearchForm对象
+        GraylogSearchForm searchForm = new GraylogSearchForm(project, toolWindow);
+
+        //将其保存在工程
+        GraylogGuiderService.getInstance().setSearchForm(searchForm);
+
+        //获取内容工厂的实例
+        ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
+        //获取用于toolWindow显示的内容
+        Content content = contentFactory.createContent(searchForm.getContentPanel(), CONTENT_NAME, false);
+        //给toolWindow设置内容
         toolWindow.getContentManager().addContent(content);
     }
 
