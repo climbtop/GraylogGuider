@@ -10,12 +10,17 @@ import com.intellij.ui.components.JBScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class GraylogSearchForm {
+public class GraylogSearchForm{
     private Project project;
     private ToolWindow toolWindow;
+    private String projectPath;
+    private AtomicInteger resizeCnt;
+    private AtomicBoolean resizeOff;
+    private JPanelComp jcom;
     private JPanel mainPanel;
     private ComboBox<String> environment;
     private JTextField searchText;
@@ -26,18 +31,18 @@ public class GraylogSearchForm {
     private JCheckBox isDetails;
     private JLabel totalRecords;
     private JTextArea consoleView;
-    private String projectPath;
 
     public GraylogSearchForm(){
-        Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension dimension = new Dimension((int)screensize.getWidth()-50,
-                (int)screensize.getHeight()-10);
-        this.createContentPanel(dimension);
+        this(null, null);
     }
     public GraylogSearchForm(Project project, ToolWindow toolWindow){
-        this.project = project;
-        this.toolWindow = toolWindow;
-        this.projectPath = project.getProjectFilePath();
+        if(project!=null && toolWindow !=null) {
+            this.project = project;
+            this.projectPath = project.getProjectFilePath();
+            this.toolWindow = toolWindow;
+        }
+        this.resizeCnt = new AtomicInteger(0);
+        this.resizeOff = new AtomicBoolean(true);
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension dimension = new Dimension((int)screensize.getWidth()-50,
                 (int)screensize.getHeight()-10);
@@ -47,7 +52,7 @@ public class GraylogSearchForm {
     public void createContentPanel(Dimension dimension) {
         mainPanel = new JPanel();
         mainPanel.setPreferredSize(dimension);
-        JPanelComp jcom = new JPanelComp(mainPanel);
+        jcom = new JPanelComp(mainPanel);
 
         //第1行
         jcom.add(new JLabel("Env:"), 0, 0, 1, 1);
@@ -93,9 +98,19 @@ public class GraylogSearchForm {
         consoleView.setAutoscrolls(true);
         consoleView.setMargin(new Insets(5,5,5,5));
         consoleView.setBackground(new Color(42,42,42));
+        consoleView.setEditable(false);
         JBScrollPane jbScrollPane = new JBScrollPane(consoleView);
-        jcom.add(jbScrollPane, 0, 2, 20, 4);
+        jcom.add(jbScrollPane, 0, 2, 20, 18);
 
+        //缩放事件
+        mainPanel.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                mainPanelResize();
+            }
+            public void componentShown(ComponentEvent e) {
+                mainPanelResize();
+            }
+        });
         //组件操作
         searchBtn.addActionListener(new ActionListener() {
             @Override
@@ -105,7 +120,17 @@ public class GraylogSearchForm {
                 GraylogGuiderService.getInstance().searchGraylogMessage(readSearchParam(), searchParam);
             }
         });
+    }
 
+    public void mainPanelResize(){
+        resizeCnt.addAndGet(1);
+        if(!resizeOff.get()) return;
+        do{
+            resizeCnt.set(0);
+            resizeOff.set(false);
+            jcom.setSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
+            resizeOff.set(true);
+        }while(resizeCnt.get()>0);
     }
 
     public SearchConfig readSearchParam(){
@@ -150,8 +175,8 @@ public class GraylogSearchForm {
             case "7Day": return 7*24*60*60;
             case "14Day": return 14*24*60*60;
             case "30Day": return 30*24*60*60;
+            default: return 5*60;
         }
-        return 5*60;
     }
 
     public JPanel getContentPanel(){
