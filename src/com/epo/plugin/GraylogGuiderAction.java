@@ -86,6 +86,7 @@ public class GraylogGuiderAction extends AnAction {
 
     private void triggerActionEventNow(AnActionEvent event, GraylogCallback callback) {
         PsiFile psiFile = event.getData(PlatformDataKeys.PSI_FILE);
+        if(psiFile==null || psiFile.getVirtualFile()==null) return;
         String virtualFile = psiFile.getVirtualFile().getCanonicalPath();
         DataContext dataContext = event.getDataContext();
         Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
