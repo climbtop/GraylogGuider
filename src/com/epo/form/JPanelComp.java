@@ -12,6 +12,7 @@ public class JPanelComp {
     private JPanel jpanel;
     private GridBagLayout layout;
     private GridBagConstraints gbag;
+    private Component zero;
     private java.util.List<Component> compList;
     private java.util.List<Dimension> posiList;
     private java.util.List<Dimension> dimeList;
@@ -38,6 +39,9 @@ public class JPanelComp {
         compList.add(comp);
         posiList.add(new Dimension(x,y));
         dimeList.add(new Dimension(w,h));
+        if(zero==null) {
+            zero = comp;
+        }
     }
 
     private void setCompSize(Component comp, int x, int y, int w, int h) {
@@ -60,6 +64,16 @@ public class JPanelComp {
             component.setPreferredSize(new Dimension(comW, comH));
             component.setSize(comW, comH);
         }
+    }
+
+    public boolean isZero(){
+        if(zero==null)return true;
+        Rectangle rectangle = zero.getBounds();
+        return rectangle.getX()<20.0 && rectangle.getY()<20.0;
+    }
+
+    public String getZeroXY() {
+        return zero!=null?(zero.getX()+","+zero.getY()):"";
     }
 
     public int adjustHeight(int winHeight, int y, int h, int PH, int comH){

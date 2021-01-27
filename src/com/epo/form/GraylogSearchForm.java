@@ -199,9 +199,7 @@ public class GraylogSearchForm{
         return totalRecords;
     }
 
-    public String getProjectPath() {
-        return projectPath;
-    }
+    public JPanelComp getJcom() { return jcom; }
 
     public static void main(String[] args) {
         GraylogSearchForm form = new GraylogSearchForm();
@@ -210,6 +208,20 @@ public class GraylogSearchForm{
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.pack();
         jf.setVisible(true);
+
+        Thread t = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                while(true){
+                    if(!form.getJcom().isZero()){
+                        jf.setSize(jf.getWidth()+1, jf.getHeight()+1);
+                    }
+                    try{Thread.sleep(100);}catch (Exception e){}
+                }
+            }
+        });
+        t.start();
+
     }
 
 
