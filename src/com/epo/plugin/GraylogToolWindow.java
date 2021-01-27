@@ -42,11 +42,11 @@ public class GraylogToolWindow implements ToolWindowFactory {
         Content content = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), GUIDER_NAME, true);
         toolWindow.getContentManager().addContent(content);
         StringBuffer sb = new StringBuffer();
-        sb.append("GraylogGuider Usages:\n");
-        sb.append("1. Open a target file.\n");
-        sb.append("2. Expand all code's lines in the file, that can match the right line number.\n");
-        sb.append("3. Press the Hot Key [Ctrl + Atl + G]. Disable it just press again.\n");
-        sb.append("4. Click a log output line in the file. The target's logs will be searching for.\n");
+        sb.append("GraylogGuider Usages:\n\n");
+        sb.append(" 1. Open a target file.\n");
+        sb.append(" 2. Expand all code's lines in the file, that can match the right line number.\n");
+        sb.append(" 3. Press the Hot Key [Ctrl + Atl + G]. Disable it just press again.\n");
+        sb.append(" 4. Click a log output line in the file. The target's logs will be searching for.\n");
         consoleView.print(sb.toString(), ConsoleViewContentType.NORMAL_OUTPUT);
     }
 
