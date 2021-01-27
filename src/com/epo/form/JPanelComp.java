@@ -13,6 +13,7 @@ public class JPanelComp {
     private GridBagLayout layout;
     private GridBagConstraints gbag;
     private java.util.List<Component> compList;
+    private java.util.List<Dimension> posiList;
     private java.util.List<Dimension> dimeList;
 
     public JPanelComp(JPanel jpanel) {
@@ -22,6 +23,7 @@ public class JPanelComp {
         this.gbag=new GridBagConstraints();
         this.gbag.fill=GridBagConstraints.BOTH;
         this.compList = new ArrayList<>();
+        this.posiList = new ArrayList<>();
         this.dimeList = new ArrayList<>();
     }
 
@@ -34,6 +36,7 @@ public class JPanelComp {
         jpanel.add(comp);
         setCompSize(comp,x, y, w,h);
         compList.add(comp);
+        posiList.add(new Dimension(x,y));
         dimeList.add(new Dimension(w,h));
     }
 
@@ -41,6 +44,7 @@ public class JPanelComp {
         Dimension winDim = jpanel.getPreferredSize();
         int comW = Double.valueOf((w*1.0/PW) * winDim.getWidth()).intValue();
         int comH = Double.valueOf((h*1.0/PH) * winDim.getHeight()).intValue();
+        comH = adjustHeight((int)winDim.getHeight(), y, h, PH, comH);
         comp.setPreferredSize(new Dimension(comW, comH));
         comp.setSize(new Dimension(comW, comH));
     }
@@ -48,11 +52,23 @@ public class JPanelComp {
     public void setSize(Dimension winDim){
         for(int i=0; i<compList.size(); i++){
             Component component = compList.get(i);
+            Dimension positions = posiList.get(i);
             Dimension dimension = dimeList.get(i);
             int comW = Double.valueOf((dimension.getWidth()*1.0/PW) * winDim.getWidth()).intValue();
             int comH = Double.valueOf((dimension.getHeight()*1.0/PH) * winDim.getHeight()).intValue();
+            comH = adjustHeight((int)winDim.getHeight(), (int)positions.getHeight(), (int)dimension.getHeight(), PH, comH);
             component.setPreferredSize(new Dimension(comW, comH));
             component.setSize(comW, comH);
         }
     }
+
+    public int adjustHeight(int winHeight, int y, int h, int PH, int comH){
+        int minH = 30;
+        if(y<2){
+            return minH;
+        }else{
+            return winHeight - (PH-h)*minH;
+        }
+    }
+
 }

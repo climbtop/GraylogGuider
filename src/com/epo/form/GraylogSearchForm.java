@@ -55,7 +55,7 @@ public class GraylogSearchForm{
         jcom = new JPanelComp(mainPanel);
 
         //第1行
-        jcom.add(new JLabel("Env:"), 0, 0, 1, 1);
+        jcom.add(new JLabel("ENV:"), 0, 0, 1, 1);
         environment = new ComboBox<String>(new String[] {"Prod","Uat","Sit"});
         environment.setSelectedIndex(1);
         jcom.add(environment, 1, 0, 2, 1);
@@ -68,19 +68,19 @@ public class GraylogSearchForm{
         jcom.add(searchBtn, 18, 0, 2, 1);
 
         //第2行
-        jcom.add(new JLabel("Model:"), 0, 1, 1, 1);
+        jcom.add(new JLabel("Module:"), 0, 1, 1, 1);
         searchProject = new ComboBox<String>(new String[] {"Hybris","Inventory","Hap","Sourcing","Promotion","MALL"});
         searchProject.setSelectedIndex(0);
         jcom.add(searchProject, 1, 1, 2, 1);
 
         jcom.add(new JLabel("Range:"), 3, 1, 1, 1);
         searchRange= new ComboBox<String>(new String[] {"5Min","15Min","30Min","1Hour","2Hour","8Hour","1Day","2Day","5Day","7Day","14Day","30Day"});
-        searchRange.setSelectedIndex(3);
+        searchRange.setSelectedIndex(2);
         jcom.add(searchRange, 4, 1, 2, 1);
 
         jcom.add(new JLabel("Size:"), 6, 1, 1, 1);
         pageSize = new ComboBox<String>(new String[] {"10", "20", "50","100","200","500","1000"});
-        pageSize.setSelectedIndex(2);
+        pageSize.setSelectedIndex(3);
         jcom.add(pageSize, 7, 1, 2, 1);
 
         jcom.add(new JLabel("Detail:"), 9, 1, 1, 1);
@@ -118,6 +118,14 @@ public class GraylogSearchForm{
                 //点击按钮触发搜索
                 SearchParam searchParam = new SearchParam();
                 GraylogGuiderService.getInstance().searchGraylogMessage(readSearchParam(), searchParam);
+            }
+        });
+        //回车事件
+        searchText.addKeyListener(new KeyAdapter(){
+            public void keyPressed(KeyEvent e){
+                if(e.getKeyChar()==KeyEvent.VK_ENTER){
+                    searchBtn.doClick();
+                }
             }
         });
     }
