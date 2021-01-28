@@ -44,7 +44,7 @@ public class GraylogToolWindow implements ToolWindowFactory {
         StringBuffer sb = new StringBuffer();
         sb.append("GraylogGuider Configuration:\n\n");
         sb.append(" 1. Open a target java source file.\n");
-        sb.append(" 2. Expand all code's lines in the file, that can match the right line number.\n");
+        sb.append(" 2. Expand all code's lines in the file, that can match the right line number. Press [Ctrl + Shift + =] twice.\n");
         sb.append(" 3. Press the Hot Key [Ctrl + Atl + G] to Enabled. Disable it just press again.\n");
         sb.append(" 4. Click a logger output line in the file. The graylog logs will be searching for.\n");
         consoleView.print(sb.toString(), ConsoleViewContentType.NORMAL_OUTPUT);
