@@ -13,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class GraylogToolWindow implements ToolWindowFactory {
     public static String WINDOW_NAME = "Graylog";
-    public static String CONTENT_NAME = "Local";
-    public static String GUIDER_NAME = "Usage";
+    public static String CONTENT_NAME = "Search";
+    public static String GUIDER_NAME = "Help";
     public static String NOTIFY_NAME = "Notify";
 
     @Override
@@ -33,6 +33,7 @@ public class GraylogToolWindow implements ToolWindowFactory {
         Content content = contentFactory.createContent(searchForm.getContentPanel(), CONTENT_NAME, false);
         //给toolWindow设置内容
         toolWindow.getContentManager().addContent(content);
+        toolWindow.getContentManager().setSelectedContent(content);
     }
 
 
