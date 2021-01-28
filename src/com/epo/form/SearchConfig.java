@@ -9,6 +9,7 @@ public class SearchConfig implements Serializable {
     private String searchRange;
     private String pageSize;
     private String isDetails;
+    private String isWatcher;
     private String totalRecords;
     private String consoleView;
 
@@ -74,5 +75,13 @@ public class SearchConfig implements Serializable {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public String getIsWatcher() {
+        return isWatcher;
+    }
+
+    public void setIsWatcher(String isWatcher) {
+        this.isWatcher = isWatcher;
     }
 }

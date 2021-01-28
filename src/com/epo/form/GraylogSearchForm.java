@@ -1,7 +1,6 @@
 package com.epo.form;
 
 import com.epo.graylog.bean.SearchResult;
-import com.epo.graylog.bean.impl.ModuleConfig;
 import com.epo.plugin.GraylogGuiderService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
@@ -29,6 +28,7 @@ public class GraylogSearchForm{
     private ComboBox<String> searchRange;
     private ComboBox<String> pageSize;
     private JCheckBox isDetails;
+    private JCheckBox isWatcher;
     private JLabel totalRecords;
     private JTextArea consoleView;
 
@@ -87,7 +87,11 @@ public class GraylogSearchForm{
         isDetails = new JCheckBox();
         jcom.add(isDetails, 10, 1, 1, 1);
 
-        jcom.add(new JPanel(), 11, 1, 6, 1);
+        jcom.add(new JLabel("Watch:"), 11, 1, 1, 1);
+        isWatcher = new JCheckBox();
+        jcom.add(isWatcher, 12, 1, 1, 1);
+
+        jcom.add(new JPanel(), 13, 1, 4, 1);
 
         jcom.add(new JLabel("Total:"), 17, 1, 1, 1);
         totalRecords = new JLabel("0");
@@ -150,6 +154,7 @@ public class GraylogSearchForm{
         searchConfig.setPageSize(String.valueOf(pageSize.getSelectedItem()));
         searchConfig.setSearchText(searchText.getText());
         searchConfig.setIsDetails(isDetails.isSelected()?"Y":"N");
+        searchConfig.setIsWatcher(isWatcher.isSelected()?"Y":"N");
         searchConfig.setSearchRange(String.valueOf(parseRangeMinutes(searchConfig.getSearchRange())));
         return searchConfig;
     }
@@ -201,6 +206,14 @@ public class GraylogSearchForm{
     }
 
     public JPanelComp getJcom() { return jcom; }
+
+    public void setWatcherFlag(Boolean value){
+        isWatcher.setSelected(value);
+    }
+
+    public boolean getWatcherFlag(){
+        return isWatcher.isSelected();
+    }
 
     public static void main(String[] args) {
         GraylogSearchForm form = new GraylogSearchForm();
