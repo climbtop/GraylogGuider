@@ -36,7 +36,6 @@ public class GraylogToolWindow implements ToolWindowFactory {
         toolWindow.getContentManager().setSelectedContent(content);
     }
 
-
     private void createGuiderUsageContent(@NotNull Project project, @NotNull ToolWindow toolWindow){
         ConsoleView consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
         Content content = toolWindow.getContentManager().getFactory().createContent(consoleView.getComponent(), GUIDER_NAME, true);
