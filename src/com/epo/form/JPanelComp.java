@@ -66,14 +66,27 @@ public class JPanelComp {
         }
     }
 
-    public boolean isZero(){
+    public void setMove(Dimension winMov){
+        for(int i=0; i<compList.size(); i++){
+            Component component = compList.get(i);
+            Rectangle rect = component.getBounds();
+            int newX = (int)rect.getX() - (int)winMov.getWidth();
+            int newY = (int)rect.getY() - (int)winMov.getHeight();
+            rect.setBounds(newX, newY,(int)rect.getWidth(),(int)rect.getHeight());
+            component.setBounds(rect);
+        }
+    }
+
+    private boolean isZeroXY(){
         if(zero==null)return true;
         Rectangle rectangle = zero.getBounds();
         return rectangle.getX()<20.0 && rectangle.getY()<20.0;
     }
 
-    public String getZeroXY() {
-        return zero!=null?(zero.getX()+","+zero.getY()):"";
+    public void adjustZeroXY(){
+        if(!isZeroXY()){
+            setMove(new Dimension((int)zero.getBounds().getX(), (int)zero.getBounds().getY()));
+        }
     }
 
     public int adjustHeight(int winHeight, int y, int h, int PH, int comH){

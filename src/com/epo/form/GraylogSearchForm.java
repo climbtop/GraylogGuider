@@ -137,6 +137,7 @@ public class GraylogSearchForm{
             resizeCnt.set(0);
             resizeOff.set(false);
             jcom.setSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
+            jcom.adjustZeroXY();
             resizeOff.set(true);
         }while(resizeCnt.get()>0);
     }
@@ -208,20 +209,6 @@ public class GraylogSearchForm{
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.pack();
         jf.setVisible(true);
-
-        Thread t = new Thread(new Runnable(){
-            @Override
-            public void run() {
-                while(true){
-                    if(!form.getJcom().isZero()){
-                        jf.setSize(jf.getWidth()+1, jf.getHeight()+1);
-                    }
-                    try{Thread.sleep(100);}catch (Exception e){}
-                }
-            }
-        });
-        t.start();
-
     }
 
 
