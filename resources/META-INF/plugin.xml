@@ -13,7 +13,7 @@
     ]]>
   </change-notes>
 
-  <idea-version since-build="173.0"/>
+  <idea-version since-build="193.0"/>
 
   <extensions defaultExtensionNs="com.intellij">
       <toolWindow id="Graylog" canCloseContents="true"  anchor="bottom"
@@ -23,6 +23,11 @@
                           serviceImplementation="com.epo.plugin.impl.GraylogGuiderServiceImpl"/>
   </extensions>
 
+  <applicationListeners>
+    <listener class="com.epo.listener.MyProjectManagerListener"
+              topic="com.intellij.openapi.project.ProjectManagerListener"/>
+  </applicationListeners>
+
   <actions>
     <action id="GraylogGuider.Action" class="com.epo.plugin.GraylogGuiderAction"
             icon="/icons/icon16x16.png"
@@ -31,5 +36,7 @@
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
     </action>
   </actions>
+
+
 
 </idea-plugin>
