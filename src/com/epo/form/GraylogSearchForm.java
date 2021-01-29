@@ -8,6 +8,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.components.JBScrollPane;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -133,6 +134,32 @@ public class GraylogSearchForm{
                 }
             }
         });
+        //更改事件
+        environment.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent e){
+                searchBtn.doClick();
+            }
+        });
+        searchProject.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent e){
+                searchBtn.doClick();
+            }
+        });
+        searchRange.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent e){
+                searchBtn.doClick();
+            }
+        });
+        pageSize.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent e){
+                searchBtn.doClick();
+            }
+        });
+        isDetails.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent e){
+                searchBtn.doClick();
+            }
+        });
     }
 
     public void mainPanelResize(){
@@ -161,7 +188,10 @@ public class GraylogSearchForm{
     }
 
     public void writeSearchParam(SearchConfig searchConfig){
-        searchProject.setSelectedItem(searchConfig.getProjectName());
+        String projectName = String.valueOf(searchProject.getSelectedItem());
+        if(projectName==null || !projectName.equals(searchConfig.getProjectName())) {
+            searchProject.setSelectedItem(searchConfig.getProjectName());
+        }
         searchText.setText(searchConfig.getSearchText());
         totalRecords.setText("0");
         consoleView.setText("");
