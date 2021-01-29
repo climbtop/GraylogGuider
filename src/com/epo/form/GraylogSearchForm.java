@@ -89,6 +89,7 @@ public class GraylogSearchForm{
 
         jcom.add(new JLabel("Watch:"), 11, 1, 1, 1);
         isWatcher = new JCheckBox();
+        isWatcher.setSelected(true);
         jcom.add(isWatcher, 12, 1, 1, 1);
 
         jcom.add(new JPanel(), 13, 1, 4, 1);

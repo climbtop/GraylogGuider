@@ -92,7 +92,9 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     }
 
                     GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
-                    searchForm.writeSearchParam(searchConfig);
+                    if(searchForm!=null) {
+                        searchForm.writeSearchParam(searchConfig);
+                    }
                 },
                 (pr,qp)->{
                     qp.setLimit(searchConfig.getPageSize()); //pageSize
@@ -101,6 +103,7 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                 },
                 result->{
                     GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
+                    if(searchForm==null) return 0;
                     searchForm.emptyToConsoleView(result);
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {

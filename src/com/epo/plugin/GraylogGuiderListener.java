@@ -1,5 +1,6 @@
 package com.epo.plugin;
 
+import com.epo.form.GraylogSearchForm;
 import com.epo.form.SearchParam;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
@@ -62,7 +63,8 @@ public class GraylogGuiderListener {
             @Override
             public void trigger(String virtualFile, Editor editor) {
                 //开启监听标识
-                if(!GraylogGuiderService.getInstance().getSearchForm().getWatcherFlag())return;
+                GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
+                if(searchForm==null || !searchForm.getWatcherFlag())return;
                 //提取查询参数
                 SelectionModel selectionModel = editor.getSelectionModel();
                 String searchText = selectionModel.getSelectedText();
