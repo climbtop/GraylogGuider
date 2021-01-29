@@ -20,7 +20,7 @@ public class GraylogToolWindow implements ToolWindowFactory {
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         //添加Guider指引说明页
-        createGuiderUsageContent(project, toolWindow);
+        //createGuiderUsageContent(project, toolWindow);
 
         //创建出GraylogSearchForm对象
         GraylogSearchForm searchForm = new GraylogSearchForm(project, toolWindow);
