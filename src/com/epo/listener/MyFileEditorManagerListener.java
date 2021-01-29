@@ -26,7 +26,7 @@ public class MyFileEditorManagerListener implements FileEditorManagerListener {
 
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
-        setExpandedFoldRegion(event.getManager().getSelectedTextEditor());
+        //setExpandedFoldRegion(event.getManager().getSelectedTextEditor());
     }
 
     protected void setExpandedFoldRegion(Editor editor) {
