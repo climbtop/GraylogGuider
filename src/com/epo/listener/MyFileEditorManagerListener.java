@@ -1,5 +1,7 @@
 package com.epo.listener;
 
+import com.epo.form.GraylogSearchForm;
+import com.epo.plugin.GraylogGuiderService;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.FoldRegion;
 import com.intellij.openapi.editor.FoldingModel;
@@ -28,6 +30,10 @@ public class MyFileEditorManagerListener implements FileEditorManagerListener {
     }
 
     protected void setExpandedFoldRegion(Editor editor) {
+        //开启监听标识
+        GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
+        if(searchForm==null || !searchForm.getWatcherFlag())return;
+        //展开代码行不折叠
         if (editor == null || editor.getFoldingModel() == null) return;
         FoldingModel folding = editor.getFoldingModel();
         FoldRegion[] foldRegions = folding.getAllFoldRegions();
