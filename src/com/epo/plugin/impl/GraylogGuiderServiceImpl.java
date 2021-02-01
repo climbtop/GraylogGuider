@@ -66,6 +66,7 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                         pr.setSourceFile(searchParam.getSourceFile());
                         pr.setLineNumber(searchParam.getLineNumber());
                         pr.setLineCount(searchParam.getLineCount());
+                        pr.setLineCodeText(searchParam.getLineCodeText());
                         pr.resovleMoreInfo();
 
                         if (StringUtils.isNotEmpty(searchParam.getSearchText())) {
@@ -95,15 +96,17 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     if(searchForm!=null) {
                         searchForm.writeSearchParam(searchConfig);
                     }
+                    return Boolean.TRUE;
                 },
                 (pr,qp)->{
                     qp.setLimit(searchConfig.getPageSize()); //pageSize
                     qp.setRange(String.valueOf(searchConfig.getSearchRange())); //30 minutes
                     qp.setQuery(searchConfig.getSearchText());
+                    return pr.resovleIsLoggerLine();
                 },
                 result->{
                     GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
-                    if(searchForm==null) return 0;
+                    if(searchForm==null) return Boolean.FALSE;
                     searchForm.emptyToConsoleView(result);
                     if(result.hasResults()) {
                         for(Message msg : result.getMessages()) {
@@ -114,7 +117,13 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     }else{
                         searchForm.printToConsoleView(JSON.toJSONString(result.getQp().getQuery())+"\n");
                     }
-                    return 0;
+                    return Boolean.TRUE;
+                },
+                (pr,qp)->{
+                    GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
+                    if(searchForm==null) return;
+                    searchForm.emptyToConsoleView();
+                    searchForm.printToConsoleView(qp.getQuery());
                 }
         );
     }

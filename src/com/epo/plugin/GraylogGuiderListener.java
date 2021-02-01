@@ -2,10 +2,12 @@ package com.epo.plugin;
 
 import com.epo.form.GraylogSearchForm;
 import com.epo.form.SearchParam;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.event.EditorMouseEvent;
 import com.intellij.openapi.editor.event.EditorMouseListener;
+import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,15 +70,29 @@ public class GraylogGuiderListener {
                 //提取查询参数
                 SelectionModel selectionModel = editor.getSelectionModel();
                 String searchText = selectionModel.getSelectedText();
-                int searchLine = selectionModel.getSelectionStartPosition().getLine()+1;
+                int searchLine = selectionModel.getSelectionStartPosition().getLine();
                 int lineCount = editor.getDocument().getLineCount();
+                String lineCodeText = getLineCodeText(editor, searchLine);
+
                 //Graylog查询方式
                 SearchParam searchParam = new SearchParam();
                 searchParam.setLineCount(lineCount);
-                searchParam.setLineNumber(searchLine);
+                searchParam.setLineNumber(searchLine+1);
                 searchParam.setSourceFile(virtualFile);
                 searchParam.setSearchText(searchText);
+                searchParam.setLineCodeText(lineCodeText);
                 GraylogGuiderService.getInstance().searchGraylogMessage(searchParam);
+            }
+            private String getLineCodeText(Editor editor, int line){
+                try{
+                    Document document = editor.getDocument();
+                    int startOffset = document.getLineStartOffset(line);
+                    int endOffset = document.getLineEndOffset(line);
+                    TextRange textRange = new TextRange(startOffset, endOffset);
+                    return document.getText(textRange);
+                }catch(Exception e){
+                    return null;
+                }
             }
         };
         return callback;

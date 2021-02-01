@@ -201,6 +201,10 @@ public class GraylogSearchForm{
         getConsoleView().setText("");
         getTotalRecords().setText(String.valueOf(result.getTotalResults()));
     }
+    public void emptyToConsoleView(){
+        getConsoleView().setText("");
+        getTotalRecords().setText("0");
+    }
 
     public void printToConsoleView(String message){
         getConsoleView().append(message);

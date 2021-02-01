@@ -26,6 +26,7 @@ public class QueryRefactor implements Serializable{
 	private Integer lineTotal;  //文件总行数
 	private Integer lineCount;  //编辑器总行数
 	private Integer amendCount;  //文件修正行数
+	private String  lineCodeText;  //当前行代码
 
 	public QueryRefactor(){
 		this(null);
@@ -103,6 +104,21 @@ public class QueryRefactor implements Serializable{
 			}
 		}
 	}
+
+	public Boolean resovleIsLoggerLine(){
+		if(lineCodeText==null || lineCodeText.length()==0) {
+			return Boolean.FALSE;
+		}
+		String lineCodeReal = lineCodeText.replaceAll("\\s+","");
+		for(String marked : LOGGER_MARKED){
+			if(lineCodeReal.indexOf(marked)>0) {
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
+
+	private static String[] LOGGER_MARKED = new String[]{".info(", ".warn(", ".error(", ".debug(", ".trace(", ".fatal("};
 
 	public String getSearchText() {
 		return searchText;
@@ -182,5 +198,13 @@ public class QueryRefactor implements Serializable{
 
 	public void setLineCount(Integer lineCount) {
 		this.lineCount = lineCount;
+	}
+
+	public String getLineCodeText() {
+		return lineCodeText;
+	}
+
+	public void setLineCodeText(String lineCodeText) {
+		this.lineCodeText = lineCodeText;
 	}
 }
