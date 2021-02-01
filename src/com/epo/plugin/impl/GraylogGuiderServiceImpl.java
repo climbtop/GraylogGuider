@@ -102,7 +102,7 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     qp.setLimit(searchConfig.getPageSize()); //pageSize
                     qp.setRange(String.valueOf(searchConfig.getSearchRange())); //30 minutes
                     qp.setQuery(searchConfig.getSearchText());
-                    return pr.resovleIsLoggerLine();
+                    return !pr.isValid() || pr.isValid()&&pr.resovleIsLoggerLine();
                 },
                 result->{
                     GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();
