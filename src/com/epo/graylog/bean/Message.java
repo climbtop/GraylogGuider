@@ -38,8 +38,8 @@ public class Message implements Serializable{
 		return String.format("%s %s - %s", getDatetime(),getLevelName(), message);
 	}
 
-	public static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.sss\'Z\'");
-	public static SimpleDateFormat sdf2 =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,sss");
+	public static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'");
+	public static SimpleDateFormat sdf2 =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
 	public String getDatetime() {
 		try{
 			Calendar calendar = Calendar.getInstance();

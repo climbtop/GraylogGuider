@@ -3,6 +3,7 @@ package com.epo.graylog.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -34,7 +35,7 @@ public class SearchResult implements Serializable{
 	public SearchResult(QueryParam qp) {
 		this.qp = qp;
 		this.totalResults = 0;
-		this.messages = new ArrayList<Message>();
+		this.messages = new LinkedList<Message>();
 	}
 	
 	public boolean hasResults() {
