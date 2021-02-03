@@ -67,9 +67,14 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                         pr.setLineNumber(searchParam.getLineNumber());
                         pr.setLineCount(searchParam.getLineCount());
                         pr.setLineCodeText(searchParam.getLineCodeText());
+                        pr.setLineStart(searchParam.getLineStart());
+                        pr.setLineStop(searchParam.getLineStop());
                         pr.resovleMoreInfo();
 
-                        if (StringUtils.isNotEmpty(searchParam.getSearchText())) {
+                        if (pr.isLineRanged()) {
+                            searchParam.setSearchText(String.format("sourceFileName:%s AND sourceLineNumber:[%s TO %s]",
+                                    pr.getFileName(), pr.getLineStart(), pr.getLineStop()));
+                        }else if (StringUtils.isNotEmpty(searchParam.getSearchText())) {
                             searchParam.setSearchText(String.format("sourceFileName:%s AND message:\"%s\"",
                                     pr.getFileName(), searchParam.getSearchText()));
                         } else {
@@ -102,7 +107,8 @@ public class GraylogGuiderServiceImpl implements GraylogGuiderService {
                     qp.setLimit(searchConfig.getPageSize()); //pageSize
                     qp.setRange(String.valueOf(searchConfig.getSearchRange())); //30 minutes
                     qp.setQuery(searchConfig.getSearchText());
-                    return !pr.isValid() || pr.isValid()&&pr.resovleIsLoggerLine();
+                    return !pr.isValid() ||
+                            pr.isValid() && (pr.isLineLogged()||pr.isLineRanged()); //is search flag
                 },
                 result->{
                     GraylogSearchForm searchForm = GraylogGuiderService.getInstance().getSearchForm();

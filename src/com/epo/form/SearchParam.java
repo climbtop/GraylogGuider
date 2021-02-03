@@ -9,6 +9,8 @@ public class SearchParam implements Serializable {
     private Integer lineNumber; //打开文件当前行号数
     private String projectName; //打开项目名称
     private String lineCodeText;  //当前行代码
+    private Integer lineStart;  //查找行开始
+    private Integer lineStop;   //查找行结束
 
     public SearchParam(){
     }
@@ -66,5 +68,21 @@ public class SearchParam implements Serializable {
 
     public void setLineCodeText(String lineCodeText) {
         this.lineCodeText = lineCodeText;
+    }
+
+    public Integer getLineStart() {
+        return lineStart;
+    }
+
+    public void setLineStart(Integer lineStart) {
+        this.lineStart = lineStart;
+    }
+
+    public Integer getLineStop() {
+        return lineStop;
+    }
+
+    public void setLineStop(Integer lineStop) {
+        this.lineStop = lineStop;
     }
 }

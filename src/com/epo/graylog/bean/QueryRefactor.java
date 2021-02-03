@@ -27,6 +27,8 @@ public class QueryRefactor implements Serializable{
 	private Integer lineCount;  //编辑器总行数
 	private Integer amendCount;  //文件修正行数
 	private String  lineCodeText;  //当前行代码
+	private Integer lineStart;  //查找行开始
+	private Integer lineStop;   //查找行结束
 
 	public QueryRefactor(){
 		this(null);
@@ -38,11 +40,28 @@ public class QueryRefactor implements Serializable{
 		this.lineCount = 0;
 		this.ac = ac;
 	}
-	
-	public boolean isValid() {
-		return sourceFile!=null && fileName!=null && projectName!=null && streamsId!=null;
+
+	public Boolean isValid() {
+		return sourceFile != null && fileName != null && projectName != null && streamsId != null;
 	}
-	
+
+	public Boolean isLineRanged() {
+		return getLineStart() != null && getLineStop() != null && getLineStart() <= getLineStop();
+	}
+
+	public Boolean isLineLogged(){
+		if(lineCodeText==null || lineCodeText.length()==0) {
+			return Boolean.FALSE;
+		}
+		String lineCodeReal = lineCodeText.replaceAll("\\s+","");
+		for(String marked : LOGGER_MARKED){
+			if(lineCodeReal.indexOf(marked)>0) {
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
+
 	public void resovleMoreInfo() {
 		resovleFileName();
 		resovleProjectName();
@@ -103,19 +122,6 @@ public class QueryRefactor implements Serializable{
 				break;
 			}
 		}
-	}
-
-	public Boolean resovleIsLoggerLine(){
-		if(lineCodeText==null || lineCodeText.length()==0) {
-			return Boolean.FALSE;
-		}
-		String lineCodeReal = lineCodeText.replaceAll("\\s+","");
-		for(String marked : LOGGER_MARKED){
-			if(lineCodeReal.indexOf(marked)>0) {
-				return Boolean.TRUE;
-			}
-		}
-		return Boolean.FALSE;
 	}
 
 	private static String[] LOGGER_MARKED = new String[]{".info(", ".warn(", ".error(", ".debug(", ".trace(", ".fatal("};
@@ -206,5 +212,21 @@ public class QueryRefactor implements Serializable{
 
 	public void setLineCodeText(String lineCodeText) {
 		this.lineCodeText = lineCodeText;
+	}
+
+	public Integer getLineStart() {
+		return lineStart;
+	}
+
+	public void setLineStart(Integer lineStart) {
+		this.lineStart = lineStart;
+	}
+
+	public Integer getLineStop() {
+		return lineStop;
+	}
+
+	public void setLineStop(Integer lineStop) {
+		this.lineStop = lineStop;
 	}
 }
